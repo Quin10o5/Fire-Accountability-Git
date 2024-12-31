@@ -1,0 +1,81 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb902da5c343ffc4fa8140863fef582f, type: 3}
+  m_Name: currentIncident
+  m_EditorClassIdentifier: 
+  startTime: 2024-12-27T21:33:31Z
+  info:
+  - '4:33:31 PM: Engine 1 with 3 personnel arrived at scene'
+  - '4:33:31 PM: Engine 2 with 6 personnel arrived at scene'
+  - '4:33:31 PM: Engine 3 with 5 personnel arrived at scene'
+  - '4:33:31 PM: Engine 4 with 5 personnel arrived at scene'
+  - '4:33:31 PM: Engine 5 with 5 personnel arrived at scene'
+  - '4:33:31 PM: Engine 6 with 7 personnel arrived at scene'
+  - '4:33:31 PM: Engine 7 with 4 personnel arrived at scene'
+  - '4:33:31 PM: Engine 8 with 5 personnel arrived at scene'
+  - '4:33:31 PM: Engine 9 with 7 personnel arrived at scene'
+  - '4:33:31 PM: Engine 10 with 5 personnel arrived at scene'
+  - '4:33:31 PM: Engine 11 with 5 personnel arrived at scene'
+  - '4:33:31 PM: Engine 12 with 11 personnel arrived at scene'
+  activeEngines: 000000000100000002000000030000000400000005000000060000000700000008000000090000000a0000000b000000
+  engineHolderPositions:
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  engineCommanderInfo:
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  engineTimes:
+  - 12:00 AM
+  - 12:00 AM
+  - 12:00 AM
+  - 12:00 AM
+  - 12:00 AM
+  - 12:00 AM
+  - 12:00 AM
+  - 12:00 AM
+  - 12:00 AM
+  - 12:00 AM
+  - 12:00 AM
+  - 12:00 AM
+  engineUVal:
+  - -0.1
+  - -0.1
+  - -0.1
+  - -0.1
+  - -0.1
+  - -0.1
+  - -0.1
+  - -0.1
+  - -0.1
+  - -0.1
+  - -0.1
+  - -0.1
