@@ -102,6 +102,19 @@ public class DraggableSearch : MonoBehaviour, IPointerDownHandler, IDragHandler,
             int outlineColorID = Shader.PropertyToID("_outline_Color");
             e.insideOutsideVis[1].material.SetColor(outlineColorID, searchColor);
             e.searchCompletion = searchCompletion;
+            currentIncident cI = dragManager.instance.tM.currentIncident;
+            if (searchCompletion == 1)
+            {
+                cI.addInfo($"Primary search completed in {e.areaName}");
+            }
+            if (searchCompletion == 2)
+            {
+                cI.addInfo($"Secondary search completed in {e.areaName}");
+            }
+            if (searchCompletion == 3)
+            {
+                cI.addInfo($"All clear in {e.areaName}!");
+            }
         }
     }
 

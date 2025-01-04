@@ -5,7 +5,10 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
-    path: Assets/Scenes/setup residential.unity
+  - enabled: 0
+    path: Assets/Scenes/Residentials/2 floor no basement.unity
     guid: 5083dfeed54502c4a9b4f3b362f06d99
+  - enabled: 1
+    path: Assets/Scenes/Residentials/3 floor basement 1.unity
+    guid: cf18d87d90c861040996d1364c390f25
   m_configObjects: {}

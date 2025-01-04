@@ -74,41 +74,37 @@ public class timeManager : MonoBehaviour, IPdfDownloader
     /// <summary>
     /// Saves all the text in `currentIncident.info` to a PDF and displays it in the Unity scene.
     /// </summary>
-    public void SaveAndDisplayIncidentInfoInPdf()
+
+    public void ShareTextFile(string filePath, string subject, string message)
     {
-#if UNITY_IOS
-        // Step 1: Generate the PDF
-        PdfConverterBridgeIos.createPdf(generatedPdfFileName, 792, 612);
-        PdfConverterBridgeIos.createNewPage();
-
-        // Concatenate all text from `currentIncident.info` into a single string
-        string concatenatedIncidentInfo = string.Join("\n", currentIncident.info.ToArray());
-
-        // Write the text to the PDF
-        PdfConverterBridgeIos.writeTextToPdf(concatenatedIncidentInfo, 200, 200, 400, 400, "#000000", 12, 1);
-
-        // Finalize the PDF
-        PdfConverterBridgeIos.endPdf();
-
-        // Step 2: Display the generated PDF in the Unity scene
-        PdfConverterBridgeIos.loadPdfInsideUnityWithFileName(generatedPdfFileName, 100, 100, 500, 500);
-
-#else
-        Debug.LogWarning("PDF creation and display is only supported on iOS.");
-#endif
+        new NativeShare()
+            .AddFile(filePath)
+            .SetSubject(subject)
+            .SetText(message)
+            .Share(); // This will bring up the native share sheet on iOS
     }
 
     public void savePDF()
     {
-#if UNITY_IOS
-        PdfConverterBridgeIos.createPdf("testPDF", 792, 612);
-        PdfConverterBridgeIos.createNewPage();
-        string concatenatedString = string.Join("\n", currentIncident.info.ToArray());
-        PdfConverterBridgeIos.writeTextToPdf(concatenatedString, 200, 200, 100, 600, "#000000", 12, 2);
-        PdfConverterBridgeIos.endPdf();
-#else
-        Debug.LogWarning("PDF generation is only available on iOS.");
-#endif
+        string concatInfo = $"INCIDENT INFO ON {DateTime.Now.ToString()}:\n\n";
+        if (d.interiorCommander != null)
+        {
+            concatInfo += $"Ending Incident Commander {eSO.engineNames[d.interiorCommander.GetComponent<WorldObjectInteract>().SOindex]}\n";
+        }
+
+        if (d.safetyOfficer != null)
+        {
+            concatInfo += $"Ending Saftey Officer {eSO.engineNames[d.safetyOfficer.GetComponent<WorldObjectInteract>().SOindex]}\n";
+        }
+        
+        concatInfo += "\n----------------------------------------\n";
+        concatInfo  += string.Join("\n", currentIncident.info.ToArray());
+        string path = System.IO.Path.Combine(Application.persistentDataPath, "incident.txt");
+
+        System.IO.File.WriteAllText(path, concatInfo);
+
+        Debug.Log($"Saved file at: {path}");
+        ShareTextFile(path, "Incident Info", "Download your incident info here:");
     }
 
     public void downloadComplete(string fileUrl, string fileContentTemp, string errorMessage)
