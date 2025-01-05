@@ -60,9 +60,13 @@ public class timeManager : MonoBehaviour, IPdfDownloader
         string seconds = elapsed.Seconds.ToString("00");
 
         // Update the UI text
-        if (timeText != null)
+        if (timeText != null && hours != "00")
         {
             timeText.text = $"{hours}:{minutes}:{seconds}";
+        }
+        else if (timeText != null)
+        {
+            timeText.text = $"{minutes}:{seconds}";
         }
 
         if (engineTimeText != null && d.selectedEngine != null)
@@ -103,7 +107,7 @@ public class timeManager : MonoBehaviour, IPdfDownloader
             concatInfo += $"Ending Saftey Officer {eSO.engineNames[d.safetyOfficer.GetComponent<WorldObjectInteract>().SOindex]}\n";
         }
         
-        concatInfo += "\n----------------------------------------\n";
+        concatInfo += "\n\n\n----------------------------------------\n\n";
         concatInfo  += string.Join("\n", currentIncident.info.ToArray());
         string path = System.IO.Path.Combine(Application.persistentDataPath, "incident.txt");
 

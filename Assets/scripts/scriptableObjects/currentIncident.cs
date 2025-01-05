@@ -17,7 +17,7 @@ public class currentIncident : ScriptableObject
     
     public void addInfo(string i)
     {
-        this.info.Add($"{DateTime.Now.ToLongTimeString()}: {i}");
+        this.info.Add($"{DateTime.Now.ToLongTimeString()}: {i}\n");
         if (timeManager.instance.logText != null)
         {
             timeManager.instance.logText.text = $"{DateTime.Now.ToLongTimeString()}: {i}";

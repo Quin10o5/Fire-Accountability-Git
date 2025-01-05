@@ -231,6 +231,11 @@ public class popUpsManager : MonoBehaviour
         }
     }
 
-
+    public void fireControlled(GameObject button)
+    {
+        tM = timeManager.instance;
+        tM.currentIncident.info.Add("\n\nFIRE UNDER CONTROL\n\n");
+        button.SetActive(false);
+    }
     
 }
