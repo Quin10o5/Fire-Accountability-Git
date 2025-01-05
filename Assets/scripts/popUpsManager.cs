@@ -2,11 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
+using UnityEditor.MPE;
 using UnityEngine;
 
 public class popUpsManager : MonoBehaviour
 {
     public static popUpsManager instance;
+    private timeManager tM;
     public enginesSO eSO;
     public GameObject popUpParent;
     public TMP_Text header;
@@ -18,13 +20,26 @@ public class popUpsManager : MonoBehaviour
     public TMP_Text personnelName;
     public TMP_Text personnelNum;
     public GameObject subtractButton;
+
+    [Header("Utilities")] 
+    public TMP_Dropdown gas;
+    public TMP_Dropdown electric;
     
     [Header("Add Company")]
     public TMP_InputField companyName;
     public TMP_InputField companyPersonnelNum;
     private string companyNameString;
+    
     private int companyPersonnelNumInt;
     private dragManager dM;
+    
+    [Header("Add Note")]
+    private string noteString;
+    public TMP_InputField noteText;
+    [Header("Warnings")]
+    public GameObject warningPopUp;
+    public TMP_Text errorText;
+    public TMP_Text reasonText;
     // Start is called before the first frame update
     void Awake()
     {
@@ -34,6 +49,7 @@ public class popUpsManager : MonoBehaviour
     void Start()
     {
         dM = dragManager.instance;
+        tM = timeManager.instance;
     }
 
     // Update is called once per frame
@@ -44,6 +60,7 @@ public class popUpsManager : MonoBehaviour
         {
             currentPage = pageIndex;
             popUpParent.SetActive(true);
+            warningPopUp.SetActive(false);
             for (int i = 0; i < pages.Length; i++)
             {
                 if (i != pageIndex)
@@ -72,6 +89,17 @@ public class popUpsManager : MonoBehaviour
         popUpParent.SetActive(false);
     }
 
+    void openWarning(string error, string reason)
+    {
+        warningPopUp.SetActive(true);
+        errorText.text = error;
+        reasonText.text = reason;
+    }
+    public void closeWarning()
+    {
+        warningPopUp.SetActive(false);
+    }
+    
     public void refreshPersonnelEdit(engineHolder e)
     {
         Debug.Log("Refreshing Personnel Edit");
@@ -130,6 +158,7 @@ public class popUpsManager : MonoBehaviour
 
     public bool confirmNum()
     {
+        if (companyPersonnelNum.text == "") return false;
         companyPersonnelNumInt = int.Parse(companyPersonnelNum.text);
         if(companyPersonnelNumInt > 0) return true;
         return false;
@@ -137,10 +166,10 @@ public class popUpsManager : MonoBehaviour
     public bool confirmName()
     {
         companyNameString = companyName.text;
-        if(companyNameString != null) return true;
+        Debug.Log(companyNameString);
+        if(companyNameString != "") return true;
         return false;
     }
-
     public void confirmCompany()
     {
         if (confirmName() && confirmNum())
@@ -154,14 +183,54 @@ public class popUpsManager : MonoBehaviour
             eSO.enginePersonel = ePersonnel.ToArray();
             List<int> aEngines = dM.activeEngines.ToList();
             aEngines.Add(eSO.engineNames.Length - 1);
-            dM.spawnEngineButtion(eSO.engineNames.Length - 1);
+            dM.spawnEngineButton(eSO.engineNames.Length - 1);
             dM.updateUI();
             closePopUp();
         }
         else
         {
-            Debug.Log("Invalid input to company");
+            if (!confirmName())
+            {
+                openWarning("This Company cannot be added", "Company name cannot be blank" );
+            }
+            else
+            {
+                openWarning("This Company cannot be added", "Company personnel cannot be less than 1" );
+            }
+            
         }
     }
+    
+    public void confirmNote()
+    {
+        noteString = noteText.text;
+        if(noteString != "")
+        {
+            tM.currentIncident.addInfo(noteString);
+            closePopUp();
+        }
+        else
+        {
+            openWarning("This note cannot be added", "Note cannot be blank" );
+        }
+    }
+
+    public void gasUpdated()
+    {
+        if (gas.value != 0)
+        {
+            tM.currentIncident.addInfo( "Gas was " + gas.options[gas.value].text );
+        }
+        
+    }
+    public void electricUpdated()
+    {
+        if (electric.value != 0)
+        {
+            tM.currentIncident.addInfo("Electric was " + electric.options[electric.value].text);
+        }
+    }
+
+
     
 }

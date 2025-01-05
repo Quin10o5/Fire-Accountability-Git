@@ -163,12 +163,14 @@ public class WorldObjectInteract : MonoBehaviour, IPointerDownHandler, IDragHand
                         {
                             eI.baseMat = d.engineInteriorCommanderMaterial;
                             eI.selectedMat = d.engineInteriorCommanderMaterial;
+                            
                             Debug.Log(d.engineInteriorCommanderMaterial);
                         }
                         else if (baseMat == d.engineSafetyOfficerMaterial)
                         {
                             eI.baseMat = d.engineSafetyOfficerMaterial;
                             eI.selectedMat = d.engineSafetyOfficerMaterial;
+                            
                             Debug.Log(d.engineSafetyOfficerMaterial);
                         }
                         else
@@ -204,6 +206,10 @@ public class WorldObjectInteract : MonoBehaviour, IPointerDownHandler, IDragHand
                     if (this.gameObject == d.interiorCommander)
                     {
                         d.interiorCommander = e;
+                    }
+                    if (this.gameObject == d.safetyOfficer)
+                    {
+                        d.safetyOfficer = e;
                     }
                     eH2.placeEngine(e);
                     

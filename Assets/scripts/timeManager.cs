@@ -67,9 +67,15 @@ public class timeManager : MonoBehaviour, IPdfDownloader
 
         if (engineTimeText != null && d.selectedEngine != null)
         {
+            if (engineTimeText.gameObject.activeSelf == false) engineTimeText.gameObject.SetActive(true);
             engineTimeText.text = d.selectedEngine.GetComponent<colorTimer>().displayTimer;
         }
+        else if (engineTimeText != null && d.selectedEngine == null)
+        {
+            engineTimeText.gameObject.SetActive(false);
+        }
     }
+    
 
     /// <summary>
     /// Saves all the text in `currentIncident.info` to a PDF and displays it in the Unity scene.

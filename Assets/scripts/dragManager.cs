@@ -48,13 +48,13 @@ public class dragManager : MonoBehaviour
         cI.resetInfo();
         foreach (int i in activeEngines)
         {
-            spawnEngineButtion(i);
+            spawnEngineButton(i);
         }
         engineScroller.instance.updateScroller();
         
     }
 
-    public void spawnEngineButtion(int i)
+    public void spawnEngineButton(int i)
     {
         cI.activeEngines.Add(i);
         cI.engineHolderPositions.Add(null);
@@ -166,6 +166,7 @@ public class dragManager : MonoBehaviour
             cI.addInfo($"{eSO.engineNames[eI.SOindex]} is no longer Incident Commander");
             int cIndex = cI.activeEngines.IndexOf(eI.SOindex);
             cI.engineCommanderInfo[cIndex] = null;
+            interiorCommander = null;
         }
         
 
@@ -187,20 +188,24 @@ public class dragManager : MonoBehaviour
             WorldObjectInteract eI = safetyOfficer.GetComponent<WorldObjectInteract>();
             eI.baseMat = engineInteriorMaterial;
             eI.selectedMat = selectedEngineInteriorMaterial;
-            eI.visRenderer.material = eI.baseMat;
-            int cIndex = cI.activeEngines.IndexOf(eI.SOindex);
+            eI.visRenderer.material = engineInteriorMaterial;
+            
             cI.addInfo($"{eSO.engineNames[eI.SOindex]} is no longer Safety Chief Officer");
+            int cIndex = cI.activeEngines.IndexOf(eI.SOindex);
             cI.engineCommanderInfo[cIndex] = null;
+            safetyOfficer = null;
         }
 
         WorldObjectInteract s = selectedEngine.GetComponent<WorldObjectInteract>();
         int cIndex2 = cI.activeEngines.IndexOf(s.SOindex);
         cI.engineCommanderInfo[cIndex2] = "Safety";
+        cI.addInfo($"{eSO.engineNames[s.SOindex]} was named Safety Chief Officer");
         s.baseMat = engineSafetyOfficerMaterial;
         s.selectedMat = engineSafetyOfficerMaterial;
         s.visRenderer.material = engineSafetyOfficerMaterial;
+        
+        
         safetyOfficer = selectedEngine;
-        cI.addInfo($"{eSO.engineNames[s.SOindex]} was named Safety Chief Officer");
         updateUI();
         
     }
