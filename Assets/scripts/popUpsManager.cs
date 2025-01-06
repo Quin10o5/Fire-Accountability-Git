@@ -159,7 +159,8 @@ public class popUpsManager : MonoBehaviour
     public bool confirmNum()
     {
         if (companyPersonnelNum.text == "") return false;
-        companyPersonnelNumInt = int.Parse(companyPersonnelNum.text);
+        try{companyPersonnelNumInt = int.Parse(companyPersonnelNum.text);}
+        catch (System.Exception) { return false; }
         if(companyPersonnelNumInt > 0) return true;
         return false;
     }

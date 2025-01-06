@@ -147,7 +147,6 @@ GameObject:
   - component: {fileID: 4059562254273415870}
   - component: {fileID: 6844061595400657923}
   - component: {fileID: 9065922100757110240}
-  - component: {fileID: -7919210753405700583}
   m_Layer: 0
   m_Name: Button (8)
   m_TagString: Untagged
@@ -272,45 +271,3 @@ MonoBehaviour:
   enginesSO: {fileID: 0}
   SOindex: 0
   company: 0
---- !u!114 &-7919210753405700583
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6134783727078836736}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: baff8732cd3074ef88b34f9cc487846d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  prefabId: 1060588801786662429
-  localRefs:
-    _Keys:
-    - {fileID: -7919210753405700583}
-    - {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
-    - {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-    - {fileID: 4800000, guid: fe393ace9b354375a9cb14cdbbc28be4, type: 3}
-    - {fileID: 11500000, guid: 0ed92af45716d584fa8259d5390f9341, type: 3}
-    - {fileID: 2100000, guid: 4beb055f07aaff244873dec698d0363e, type: 3}
-    - {fileID: 2164040, guid: 5302535af1044152a457ed104f1f4b91, type: 2}
-    - {fileID: 28204114720316640, guid: 5302535af1044152a457ed104f1f4b91, type: 2}
-    - {fileID: 12800000, guid: 4beb055f07aaff244873dec698d0363e, type: 3}
-    - {fileID: 2800000, guid: 4beb055f07aaff244873dec698d0363e, type: 3}
-    - {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-    - {fileID: 11500000, guid: 71c1514a6bd24e1e882cebbe1904ce04, type: 3}
-    - {fileID: 11500000, guid: baff8732cd3074ef88b34f9cc487846d, type: 3}
-    - {fileID: 10904, guid: 0000000000000000f000000000000000, type: 0}
-    - {fileID: 11400000, guid: 5302535af1044152a457ed104f1f4b91, type: 2}
-    - {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-    - {fileID: 6134783727078836736}
-    - {fileID: 7871217587253767661}
-    - {fileID: 7130385808113246153}
-    - {fileID: 4059562254273415870}
-    - {fileID: 6844061595400657923}
-    - {fileID: 9065922100757110240}
-    - {fileID: 8187384981495610893}
-    - {fileID: 135219935150865963}
-    - {fileID: 1704005069538964972}
-    - {fileID: 3150870413491906846}
-    _Values: 58cd7571a870a56f1234d147a8c8cb5b03c29e6518ff320d32c9176468ff392da960cf8f49262b0a93dcd0b3b26f40557d1b9e576ae3d8586597c020a6bef811920062b707c3ee291257070a2f19405f0b6de74c61e1c372c7d7d64d99f59c2ae3bf45b3d1f85d47d28b963e151c774c56612a14a5457350c2100ed0125f6f070cced98f2b73720235d1e01387fe781c5022a4fa1fb0cf614bf5f0c1e98d3473e570b61c09f887362dd2212c9ba0373b680de0cafc95d95aff78db216333ec58639208074b6bd9579b6dce4d8fa3c613

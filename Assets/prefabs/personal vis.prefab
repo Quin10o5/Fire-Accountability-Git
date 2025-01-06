@@ -117,7 +117,6 @@ GameObject:
   - component: {fileID: 8749430707086871333}
   - component: {fileID: 6938378599206208475}
   - component: {fileID: 3742374716884953819}
-  - component: {fileID: 410629534521007223}
   m_Layer: 0
   m_Name: Cylinder (2)
   m_TagString: Untagged
@@ -214,25 +213,6 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
---- !u!114 &410629534521007223
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3165691402625460026}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9cfcc9ceea0bf419cb3bcaf548c2600d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  saveLayer: 0
-  saveTag: 0
-  saveName: 0
-  saveHideFlags: 0
-  saveActive: 0
-  saveChildren: 0
-  componentsToSave: []
 --- !u!1 &4422336468886448955
 GameObject:
   m_ObjectHideFlags: 0
@@ -437,7 +417,6 @@ GameObject:
   - component: {fileID: 6345103519545927120}
   - component: {fileID: 8714062004597953836}
   - component: {fileID: 8491694939040602714}
-  - component: {fileID: 4150525936149676176}
   m_Layer: 0
   m_Name: Cylinder
   m_TagString: Untagged
@@ -534,25 +513,6 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
---- !u!114 &4150525936149676176
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4786760520758843523}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9cfcc9ceea0bf419cb3bcaf548c2600d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  saveLayer: 0
-  saveTag: 0
-  saveName: 0
-  saveHideFlags: 0
-  saveActive: 0
-  saveChildren: 0
-  componentsToSave: []
 --- !u!1 &5193437213802792222
 GameObject:
   m_ObjectHideFlags: 0
@@ -667,7 +627,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6651267962474458236}
-  - component: {fileID: -1599242601948934703}
   m_Layer: 0
   m_Name: personal vis
   m_TagString: Untagged
@@ -694,83 +653,6 @@ Transform:
   - {fileID: 9008686879724040442}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &-1599242601948934703
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5973814859914867880}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: baff8732cd3074ef88b34f9cc487846d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  prefabId: 5660743883841590228
-  localRefs:
-    _Keys:
-    - {fileID: 3875584077924218289}
-    - {fileID: 3389430524334162104}
-    - {fileID: 3165691402625460026}
-    - {fileID: 11500000, guid: 9541d86e2fd84c1d9990edf0852d74ab, type: 3}
-    - {fileID: 2291461603090146297}
-    - {fileID: 4800000, guid: e6e9a19c3678ded42a3bc431ebef7dbd, type: 3}
-    - {fileID: 4800000, guid: 36e335017ad71d54fbb10842863188ae, type: 3}
-    - {fileID: 7525132518906799416}
-    - {fileID: 473088060171358040}
-    - {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
-    - {fileID: 410629534521007223}
-    - {fileID: 6400578565200452425}
-    - {fileID: 2800000, guid: e3265ab4bf004d28a9537516768c1c75, type: 3}
-    - {fileID: 5973814859914867880}
-    - {fileID: 8272415300736211238}
-    - {fileID: 2539441593184889355}
-    - {fileID: 4800000, guid: fe393ace9b354375a9cb14cdbbc28be4, type: 3}
-    - {fileID: 5534784901560090137}
-    - {fileID: 2100000, guid: a7fec969076447b4ab043ad9ed5d3fa8, type: 2}
-    - {fileID: 6695154237572168576}
-    - {fileID: 7781004295901131168}
-    - {fileID: 3742374716884953819}
-    - {fileID: 28684132378477856, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-    - {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-    - {fileID: 4422336468886448955}
-    - {fileID: 12800000, guid: e3265ab4bf004d28a9537516768c1c75, type: 3}
-    - {fileID: 2885652167354115162}
-    - {fileID: 8714062004597953836}
-    - {fileID: 11500000, guid: 9cfcc9ceea0bf419cb3bcaf548c2600d, type: 3}
-    - {fileID: 2598044634947110388}
-    - {fileID: 8749430707086871333}
-    - {fileID: 6992667752671010993}
-    - {fileID: 7817257488612543224}
-    - {fileID: 1830525001896252430}
-    - {fileID: 7941866617350530647}
-    - {fileID: 2180264, guid: 2e498d1c8094910479dc3e1b768306a4, type: 2}
-    - {fileID: -1599242601948934703}
-    - {fileID: 5193437213802792222}
-    - {fileID: 6345103519545927120}
-    - {fileID: 1278111542649635520}
-    - {fileID: 2100000, guid: e3265ab4bf004d28a9537516768c1c75, type: 3}
-    - {fileID: 2850633610765636491}
-    - {fileID: 6651267962474458236}
-    - {fileID: 11500000, guid: 71c1514a6bd24e1e882cebbe1904ce04, type: 3}
-    - {fileID: 4786760520758843523}
-    - {fileID: 9008686879724040442}
-    - {fileID: 2390388511204514879}
-    - {fileID: 11500000, guid: baff8732cd3074ef88b34f9cc487846d, type: 3}
-    - {fileID: 8478126326217563335}
-    - {fileID: 5854473403357081390}
-    - {fileID: 6938378599206208475}
-    - {fileID: 7027864894852581048}
-    - {fileID: 1645880394835037620}
-    - {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
-    - {fileID: 28268798066460806, guid: 2e498d1c8094910479dc3e1b768306a4, type: 2}
-    - {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
-    - {fileID: 8491694939040602714}
-    - {fileID: 4150525936149676176}
-    - {fileID: 5930856487593862752}
-    - {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-    - {fileID: 11400000, guid: 2e498d1c8094910479dc3e1b768306a4, type: 2}
-    _Values: 32dcd93da536743080c1ece4158d8c1db2c74e8f5ce4c662fd98fa213f00511420654643c0efc451b1040c0ddcfc7d0b4cabab8110bc9102a53abb00640e221d7cd34b7ddbaec11dc7993b8e47631d1ad812ea3b711d8662cde070eccd8dda4ad417452bf26a1773378340f30d063846e29b12fb167d96062326c270620f6b4e41eb096d971af0456898612709926a3b777e9bb6ef864508649daf88fb6caf76284d5c97287e48630a5fbbfad66783226551f472db2b4d2fb15aa4d1c5c74318642a98382642845d0d10e1ccd8068e313bb7a5605ab35f3253b62e114534713fdd12151f7342270eadd61ca87af5fd19d602ad5c9f2383694581b5d0ab24617c04b96ff04d483a34634f04b1f937b144449786f1dbe09d07da9c46c07485bf4268a4e26ee3992d07e5dad409d000870c91c2df5518429c009f5e1b575f1f5558814dc3b0c883c14f52d09a4ce8a7022132635f8b68e51b587ae4337ff50fa7511a3736f767cf1003c0a7e3d6a99501183739aad7fd420a633b82a9dea5792f5ec0c798c679e40d6812214043af762b5574af606ce466460b7be08a50498c82763588308ec78bca5be55040656ba7ae70d82414bc6644671f38a4ccc47fa1941cc3c3993fe58cba2adbac6ff617ac2501b06eb942c6f2d9177105e63ab371974cbafba8d0381ee229
 --- !u!1 &6695154237572168576
 GameObject:
   m_ObjectHideFlags: 0
@@ -888,7 +770,6 @@ GameObject:
   - component: {fileID: 5930856487593862752}
   - component: {fileID: 7941866617350530647}
   - component: {fileID: 8272415300736211238}
-  - component: {fileID: 2850633610765636491}
   m_Layer: 0
   m_Name: Cylinder (1)
   m_TagString: Untagged
@@ -985,22 +866,3 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
---- !u!114 &2850633610765636491
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7027864894852581048}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9cfcc9ceea0bf419cb3bcaf548c2600d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  saveLayer: 0
-  saveTag: 0
-  saveName: 0
-  saveHideFlags: 0
-  saveActive: 0
-  saveChildren: 0
-  componentsToSave: []

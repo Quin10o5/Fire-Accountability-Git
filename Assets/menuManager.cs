@@ -15,6 +15,7 @@ public class menuManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        companyEditor.instance.eSO.LoadData();
         dolly = c.GetCinemachineComponent<CinemachineTrackedDolly>();
         enterMenuSelection();
     }
@@ -26,6 +27,10 @@ public class menuManager : MonoBehaviour
     }
     public void enterMenuSelection()
     {
+        if (currentMenu == 0)
+        {
+            companyEditor.instance.eSO.SaveData();
+        }
         changeMenu(1);
     }
     public void enterEngineEdits()
@@ -37,12 +42,14 @@ public class menuManager : MonoBehaviour
     {
         if (currentMenu == 0)
         {
+            companyEditor.instance.eSO.SaveData();
             changeMenu(2);
         }
         else if (currentMenu == 2)
         {
             changeMenu(0);
         }
+        
     }
 
     public void changeMenu(float dollyPosition)
@@ -86,4 +93,10 @@ public class menuManager : MonoBehaviour
         }
         
     }
+    
+    public void enterScene(int sceneIndex)
+    {
+        UnityEngine.SceneManagement.SceneManager.LoadScene(sceneIndex);
+    }
+    
 }
