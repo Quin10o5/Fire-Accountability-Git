@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using System;
 using System.ComponentModel;
+using UnityEngine.SceneManagement;
 
 public class timeManager : MonoBehaviour, IPdfDownloader
 {
@@ -115,6 +116,7 @@ public class timeManager : MonoBehaviour, IPdfDownloader
 
         Debug.Log($"Saved file at: {path}");
         ShareTextFile(path, "Incident Info", "Download your incident info here:");
+        SceneManager.LoadScene(0);
     }
 
     public void downloadComplete(string fileUrl, string fileContentTemp, string errorMessage)

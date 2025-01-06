@@ -196,8 +196,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09f97424e0eb33746bd1c061a7d7ef3b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  warningTimeMinutes: 1
-  alertTimeMinutes: 2
+  warningTimeMinutes: 15
+  alertTimeMinutes: 20
   incidentIndex: 0
   cI: {fileID: 0}
   exteriorMaterials:

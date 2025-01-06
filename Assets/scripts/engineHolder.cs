@@ -7,6 +7,7 @@ public class engineHolder : MonoBehaviour
 {
     [Header("Incident Info")]
     public string areaName = null;
+    public TMP_Text areaText;
     public bool full = false;
     public GameObject currentCommander;
     
@@ -30,7 +31,8 @@ public class engineHolder : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        if (areaText == null) return;
+        areaText.text = areaName;
     }
 
     // Update is called once per frame

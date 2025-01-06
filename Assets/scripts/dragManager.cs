@@ -39,6 +39,7 @@ public class dragManager : MonoBehaviour
     void Awake()
     {
         instance = this;
+        eSO.LoadData();
     }
 
     void Start()
@@ -46,7 +47,7 @@ public class dragManager : MonoBehaviour
         tM = timeManager.instance;
         cI = tM.currentIncident;
         cI.resetInfo();
-        foreach (int i in activeEngines)
+        for (int i = 0; i < eSO.engineNames.Length; i++)
         {
             spawnEngineButton(i);
         }

@@ -15,7 +15,7 @@ public class menuManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        companyEditor.instance.eSO.LoadData();
+        
         dolly = c.GetCinemachineComponent<CinemachineTrackedDolly>();
         enterMenuSelection();
     }

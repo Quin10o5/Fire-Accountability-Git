@@ -24,6 +24,7 @@ public class companyEditor : MonoBehaviour
 
     void Start()
     {
+        eSO.LoadData();
         updateEngines();
     }
 

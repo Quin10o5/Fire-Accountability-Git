@@ -385,6 +385,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   areaName: 
+  areaText: {fileID: 8498973363458068091}
   full: 0
   currentCommander: {fileID: 0}
   sizeMultiplier: 1
