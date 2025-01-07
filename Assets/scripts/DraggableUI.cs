@@ -134,6 +134,7 @@ public class DraggableUI : MonoBehaviour, IPointerDownHandler, IDragHandler, IPo
                     e.GetComponentInChildren<TMP_Text>().text = enginesSO.engineNames[SOindex];
                     currentIncident cI = d.tM.currentIncident;
                     int incidentIndex = cI.activeEngines.IndexOf(SOindex);
+                    cI.addInfo($"{enginesSO.engineNames[SOindex]} with {enginesSO.enginePersonel[SOindex]} personnel arrived at scene");
                     cI.addInfo($"{enginesSO.engineNames[SOindex]} was placed in {eI.currentArea}");
                     cI.engineHolderPositions[incidentIndex] = eI.currentArea;
                     timeManager.instance.setTime(incidentIndex);

@@ -69,7 +69,7 @@ public class dragManager : MonoBehaviour
         cI.engineCommanderInfo.Add(null);
         cI.engineTimes.Add(DateTime.MinValue.ToShortTimeString());
         cI.engineUVal.Add(-0.1f);
-        cI.addInfo($"{eSO.engineNames[i]} with {eSO.enginePersonel[i]} personnel arrived at scene");
+        
         GameObject engine = Instantiate(uiPrefab, transform);
         engine.transform.SetParent(dragDropParent);
         engine.GetComponentInChildren<TMP_Text>().text = eSO.engineNames[i];
