@@ -28600,7 +28600,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1664018090720076747, guid: c4f9f36caa634aa48bcd710ec1347c57, type: 3}
       propertyPath: areaName
-      value: Floor 1
+      value: Basement
       objectReference: {fileID: 0}
     - target: {fileID: 1664018090720076747, guid: c4f9f36caa634aa48bcd710ec1347c57, type: 3}
       propertyPath: sizeMultiplier

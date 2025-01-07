@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
-
+using System;
 public class popUpsManager : MonoBehaviour
 {
     public static popUpsManager instance;
@@ -234,7 +234,7 @@ public class popUpsManager : MonoBehaviour
     public void fireControlled(GameObject button)
     {
         tM = timeManager.instance;
-        tM.currentIncident.info.Add("\n\nFIRE UNDER CONTROL\n\n");
+        tM.currentIncident.info.Add($"\n\n {DateTime.Now.ToLongTimeString()}: FIRE UNDER CONTROL\n\n");
         button.SetActive(false);
     }
     
