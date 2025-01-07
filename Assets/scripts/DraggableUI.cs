@@ -130,14 +130,14 @@ public class DraggableUI : MonoBehaviour, IPointerDownHandler, IDragHandler, IPo
                     d.selectedEngine = eI.gameObject;
                     d.updateUI();
                     d.deSelect();
-                    dragManager.undoVis += eI.undoVis;
+                    dragManager.instance.undoVis += eI.undoVis;
                     e.GetComponentInChildren<TMP_Text>().text = enginesSO.engineNames[SOindex];
                     currentIncident cI = d.tM.currentIncident;
                     int incidentIndex = cI.activeEngines.IndexOf(SOindex);
                     cI.addInfo($"{enginesSO.engineNames[SOindex]} was placed in {eI.currentArea}");
                     cI.engineHolderPositions[incidentIndex] = eI.currentArea;
                     timeManager.instance.setTime(incidentIndex);
-                    e.GetComponent<colorTimer>().setTime();
+                    
 
                 }
             }

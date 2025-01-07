@@ -19,7 +19,13 @@ public class companyEditor : MonoBehaviour
     public GameObject subtractButton;
     private void Awake()
     {
-        instance = this;
+        if (instance != null && instance != this)
+        {
+            Debug.Log("Instance already exists, destroying object!");
+            instance.enabled = false;
+            Destroy(instance.gameObject);
+            instance = null;
+        }
     }
 
     void Start()

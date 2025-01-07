@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
-using UnityEditor.MPE;
 using UnityEngine;
 
 public class popUpsManager : MonoBehaviour
@@ -33,7 +32,7 @@ public class popUpsManager : MonoBehaviour
     private int companyPersonnelNumInt;
     private dragManager dM;
     
-    [Header("Add Note")]
+    [Header("Add Note")] 
     private string noteString;
     public TMP_InputField noteText;
     [Header("Warnings")]

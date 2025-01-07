@@ -11,6 +11,7 @@ public class menuManager : MonoBehaviour
 
     public CinemachineVirtualCamera c;
     private CinemachineTrackedDolly dolly;
+    public enginesSO eSO;
     private int currentMenu = 1;
     // Start is called before the first frame update
     void Start()
@@ -29,7 +30,7 @@ public class menuManager : MonoBehaviour
     {
         if (currentMenu == 0)
         {
-            companyEditor.instance.eSO.SaveData();
+            eSO.SaveData();
         }
         changeMenu(1);
     }
@@ -38,11 +39,25 @@ public class menuManager : MonoBehaviour
         changeMenu(0);
     }
 
+    public void reShare()
+    {
+        string path = System.IO.Path.Combine(Application.persistentDataPath, "incident.txt");
+        ShareTextFile(path, "Incident Info", "Download your incident info here:");
+    }
+    
+    public void ShareTextFile(string filePath, string subject, string message)
+    {
+        new NativeShare()
+            .AddFile(filePath)
+            .SetSubject(subject)
+            .SetText(message)
+            .Share(); // This will bring up the native share sheet on iOS
+    }
     public void tryOtherButton()
     {
         if (currentMenu == 0)
         {
-            companyEditor.instance.eSO.SaveData();
+            eSO.SaveData();
             changeMenu(2);
         }
         else if (currentMenu == 2)

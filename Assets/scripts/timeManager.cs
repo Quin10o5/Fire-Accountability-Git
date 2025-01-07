@@ -27,6 +27,13 @@ public class timeManager : MonoBehaviour, IPdfDownloader
     // Start is called before the first frame update
     void Awake()
     {
+        if (instance != null && instance != this)
+        {
+            Debug.Log("Instance already exists, destroying object!");
+            instance.enabled = false;
+            Destroy(instance.gameObject);
+            instance = null;
+        }
         instance = this;
     }
 
@@ -116,6 +123,7 @@ public class timeManager : MonoBehaviour, IPdfDownloader
 
         Debug.Log($"Saved file at: {path}");
         ShareTextFile(path, "Incident Info", "Download your incident info here:");
+        currentIncident.resetInfo();
         SceneManager.LoadScene(0);
     }
 

@@ -21,7 +21,13 @@ public class popUpController : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        instance = this;
+        if (instance != null && instance != this)
+        {
+            Debug.Log("Instance already exists, destroying object!");
+            instance.enabled = false;
+            Destroy(instance.gameObject);
+            instance = null;
+        }
     }
 
     // Update is called once per frame

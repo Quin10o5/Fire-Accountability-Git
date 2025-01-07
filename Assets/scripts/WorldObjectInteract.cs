@@ -34,7 +34,7 @@ public class WorldObjectInteract : MonoBehaviour, IPointerDownHandler, IDragHand
     {
         visRenderer.material = baseMat;
         //GetComponent<colorTimer>().timeText = null;
-        dragManager.undoVis -= undoVis;
+        dragManager.instance.undoVis -= undoVis;
     } 
 
     public void OnPointerDown(PointerEventData eventData)
@@ -222,9 +222,9 @@ public class WorldObjectInteract : MonoBehaviour, IPointerDownHandler, IDragHand
                     d.selectedEngine = eI.gameObject;
                     d.updateUI();
                     e.GetComponentInChildren<TMP_Text>().text = enginesSO.engineNames[SOindex];
-                    e.GetComponent<colorTimer>().setTime();
+                    
                     //Debug.Log("Placed Engine");
-                    dragManager.undoVis += eI.undoVis;
+                    dragManager.instance.undoVis += eI.undoVis;
                     
 
                 }
@@ -237,7 +237,7 @@ public class WorldObjectInteract : MonoBehaviour, IPointerDownHandler, IDragHand
                 d.selectedEngineIndex = SOindex;
                 d.selectedEngine = this.gameObject;
                 d.updateUI();
-                dragManager.undoVis += this.undoVis;
+                dragManager.instance.undoVis += this.undoVis;
                 //Debug.Log("No suitable engine holder found or holder is full.");
             }
         }
@@ -249,7 +249,7 @@ public class WorldObjectInteract : MonoBehaviour, IPointerDownHandler, IDragHand
             d.selectedEngine = this.gameObject;
             d.updateUI();
             eH.placeEngine(this.gameObject);
-            dragManager.undoVis += this.undoVis;
+            dragManager.instance.undoVis += this.undoVis;
             // Optionally reset position or take another action
         }
     }

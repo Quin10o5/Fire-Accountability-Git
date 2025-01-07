@@ -13,15 +13,9 @@ MonoBehaviour:
   m_Name: EnginesData
   m_EditorClassIdentifier: 
   engineNames:
-  - Engine 1
-  - Engine 2
-  - Engine 3
-  - Engine 4
-  - Engine 5
-  - Engine 6
-  - Engine 7
-  - Engine 8
-  - Engine 9
-  - Engine 10
-  - Engine 11
-  enginePersonel: 0400000006000000050000000600000005000000070000000400000005000000070000000500000005000000
+  - Sample 1
+  - Sample 2
+  - Sample 3
+  - Sample 4
+  - Sample 5
+  enginePersonel: 0400000006000000050000000700000008000000

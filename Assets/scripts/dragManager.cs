@@ -30,7 +30,7 @@ public class dragManager : MonoBehaviour
     public GameObject safetyOfficer = null;
     public float yOffset = 0.5f;    // Not used in this example, but you can adjust as needed.
     public delegate void simpleEvent();
-    public static event Action undoVis ;
+    public event Action undoVis ;
     [Header("Time Manager")]
     public timeManager tM;
 
@@ -38,6 +38,13 @@ public class dragManager : MonoBehaviour
 
     void Awake()
     {
+        if (instance != null && instance != this)
+        {
+            Debug.Log("Instance already exists, destroying object!");
+            instance.enabled = false;
+            Destroy(instance.gameObject);
+            instance = null;
+        }
         instance = this;
         eSO.LoadData();
     }
