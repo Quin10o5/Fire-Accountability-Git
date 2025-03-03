@@ -43,7 +43,7 @@ public class colorTimer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        TimeSpan elapsed = DateTime.UtcNow - startTime;
+        TimeSpan elapsed = DateTime.Now - startTime;
 
         // Format the TimeSpan into HH:MM:SS (or whatever you prefer)
         string minutes = elapsed.Minutes.ToString("00");

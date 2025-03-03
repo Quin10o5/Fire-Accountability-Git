@@ -64,6 +64,10 @@ public class menuManager : MonoBehaviour
         {
             changeMenu(0);
         }
+        else if (currentMenu == 3)
+        {
+            changeMenu(2);
+        }
         
     }
 
@@ -104,6 +108,11 @@ public class menuManager : MonoBehaviour
             {
                 buttons[0].GetComponentInChildren<TMP_Text>().text = "Menu >";
                 buttons[1].GetComponentInChildren<TMP_Text>().text = "Companies >";
+            }
+            else if (currentMenu == 3)
+            {
+                buttons[0].GetComponentInChildren<TMP_Text>().text = "Menu >";
+                buttons[1].GetComponentInChildren<TMP_Text>().text = "Scenes >";
             }
         }
         

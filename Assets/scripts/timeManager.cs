@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using System;
 using System.ComponentModel;
+using Unity.VisualScripting;
 using UnityEngine.SceneManagement;
 
 public class timeManager : MonoBehaviour, IPdfDownloader
@@ -40,9 +41,8 @@ public class timeManager : MonoBehaviour, IPdfDownloader
     void Start()
     {
         d = dragManager.instance;
-        currentIncident.startTime = DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ssZ");
-        startTime = DateTime.Parse(currentIncident.startTime, null,
-            System.Globalization.DateTimeStyles.RoundtripKind);
+        currentIncident.startTime = DateTime.Now.ToString();
+        DateTime.TryParse(currentIncident.startTime, out startTime);
     }
 
     public void setTime(int cIndex)
@@ -60,7 +60,7 @@ public class timeManager : MonoBehaviour, IPdfDownloader
 
     void Update()
     {
-        TimeSpan elapsed = DateTime.UtcNow - startTime;
+        TimeSpan elapsed = DateTime.Now - startTime;
 
         // Format the TimeSpan into HH:MM:SS (or whatever you prefer)
         string hours = elapsed.Hours.ToString("00");
@@ -104,19 +104,32 @@ public class timeManager : MonoBehaviour, IPdfDownloader
 
     public void savePDF()
     {
-        string concatInfo = $"INCIDENT INFO ON {DateTime.Now.ToString()}:\n\n";
+        string concatInfo = $"INCIDENT INFO - COMPLETED AT {DateTime.Now.ToString()}:\n\n";
         if (d.interiorCommander != null)
         {
-            concatInfo += $"Ending Incident Commander {eSO.engineNames[d.interiorCommander.GetComponent<WorldObjectInteract>().SOindex]}\n";
+            concatInfo += $"Ending Incident Commander:   {eSO.engineNames[d.interiorCommander.GetComponent<WorldObjectInteract>().SOindex]}\n";
         }
 
         if (d.safetyOfficer != null)
         {
-            concatInfo += $"Ending Saftey Officer {eSO.engineNames[d.safetyOfficer.GetComponent<WorldObjectInteract>().SOindex]}\n";
+            concatInfo += $"Ending Safety Officer:   {eSO.engineNames[d.safetyOfficer.GetComponent<WorldObjectInteract>().SOindex]}\n";
         }
-        
+        TimeSpan elapsed = DateTime.Now - startTime;
+
+        // Format the TimeSpan into HH:MM:SS (or whatever you prefer)
+        string hours = elapsed.Hours.ToString("00");
+        string minutes = elapsed.Minutes.ToString("00");
+        string seconds = elapsed.Seconds.ToString("00");
         concatInfo += "\n\n\n----------------------------------------\n\n";
         concatInfo  += string.Join("\n", currentIncident.info.ToArray());
+        concatInfo += "\n\n\n----------------------------------------\n";
+        concatInfo += $"Incident started at {DateTime.Now.Subtract(elapsed).ToLongTimeString()}";
+        concatInfo += "\n----------------------------------------\n";
+        concatInfo += $"Incident ended at {DateTime.Now.ToLongTimeString()}"; 
+        concatInfo += "\n----------------------------------------\n";
+        concatInfo += $"Incident duration: {hours}:{minutes}:{seconds}";
+        concatInfo += "\n----------------------------------------\n";
+        Debug.Log(concatInfo);  
         string path = System.IO.Path.Combine(Application.persistentDataPath, "incident.txt");
 
         System.IO.File.WriteAllText(path, concatInfo);
