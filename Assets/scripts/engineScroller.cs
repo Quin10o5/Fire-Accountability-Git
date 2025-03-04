@@ -21,11 +21,11 @@ public class engineScroller : MonoBehaviour
             engineButtons[i].SetActive(true);
         }
         
-        // Check if there are more than 8 buttons
-        if (engineButtons.Length > 8)
+        // Check if there are more than 6 buttons
+        if (engineButtons.Length > 6)
         {
             // Loop through the overflow buttons and set them inactive
-            for (int i = 8; i < engineButtons.Length; i++)
+            for (int i = 6; i < engineButtons.Length; i++)
             {
                 engineButtons[i].SetActive(false);
             }
@@ -35,7 +35,7 @@ public class engineScroller : MonoBehaviour
         }
         else
         {
-            // Ensure all buttons remain active if 8 or fewer
+            // Ensure all buttons remain active if 6 or fewer
             foreach (var button in engineButtons)
             {
                 button.SetActive(true);
