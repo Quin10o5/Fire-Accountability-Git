@@ -7,7 +7,7 @@ using System.ComponentModel;
 using Unity.VisualScripting;
 using UnityEngine.SceneManagement;
 
-public class timeManager : MonoBehaviour, IPdfDownloader
+public class timeManager : MonoBehaviour
 {
     public currentIncident currentIncident;
     public enginesSO eSO;
