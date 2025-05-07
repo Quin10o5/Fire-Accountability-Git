@@ -20,22 +20,36 @@ public class colorTimer : MonoBehaviour
     // Start is called before the first frame update
     public void setTime()
     {
-        wOI = GetComponent<WorldObjectInteract>();
-        cI = timeManager.instance.currentIncident;
-        incidentIndex = wOI.SOindex;
         
-        if (DateTime.TryParse(cI.engineTimes[incidentIndex], out startTime))
+        
+        
+        string raw = cI.engineTimes[incidentIndex];
+
+        // If it’s empty, null, or still the MinValue placeholder, force a reset
+        if (string.IsNullOrEmpty(raw)
+            || raw == DateTime.MinValue.ToShortTimeString()
+            || !DateTime.TryParse(raw, out startTime))
         {
-            Debug.Log($"Successfully parsed to: {startTime}");
+            startTime = DateTime.Now;
+            cI.engineTimes[incidentIndex] = startTime.ToString();
         }
         else
         {
-            Debug.Log("Failed to parse the time string.");
+            Debug.Log($"Parsed engine start time: {startTime}");
         }
+        
+        
+        
     }
+
 
     public void Start()
     {
+        wOI = GetComponent<WorldObjectInteract>();
+        cI = timeManager.instance.currentIncident;
+        incidentIndex = wOI.SOindex;
+        warningTimeMinutes = PlayerPrefs.GetInt("warningTimeMinutes", 10);
+        alertTimeMinutes = PlayerPrefs.GetInt("alertTimeMinutes", 15);
         setTime();
     }
     

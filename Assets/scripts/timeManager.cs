@@ -28,14 +28,9 @@ public class timeManager : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        if (instance != null && instance != this)
-        {
-            Debug.Log("Instance already exists, destroying object!");
-            instance.enabled = false;
-            Destroy(instance.gameObject);
-            instance = null;
-        }
+        if (instance != null) return;
         instance = this;
+        
     }
 
     void Start()
@@ -129,12 +124,21 @@ public class timeManager : MonoBehaviour
         concatInfo += "\n----------------------------------------\n";
         concatInfo += $"Incident duration: {hours}:{minutes}:{seconds}";
         concatInfo += "\n----------------------------------------\n";
+        
+        
+        
+        // Remove all text between ~ characters, including the ~ characters themselves
+        System.Text.RegularExpressions.Regex regex = new System.Text.RegularExpressions.Regex("~.*?~");
+        concatInfo = regex.Replace(concatInfo, "");
+        
+        
         Debug.Log(concatInfo);  
         string path = System.IO.Path.Combine(Application.persistentDataPath, "incident.txt");
 
         System.IO.File.WriteAllText(path, concatInfo);
 
         Debug.Log($"Saved file at: {path}");
+        Debug.Log(concatInfo);
         ShareTextFile(path, "Incident Info", "Download your incident info here:");
         currentIncident.resetInfo();
         SceneManager.LoadScene(0);

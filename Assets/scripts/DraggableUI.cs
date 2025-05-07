@@ -138,6 +138,7 @@ public class DraggableUI : MonoBehaviour, IPointerDownHandler, IDragHandler, IPo
                     cI.addInfo($"{enginesSO.engineNames[SOindex]} was placed in {eI.currentArea}");
                     cI.engineHolderPositions[incidentIndex] = eI.currentArea;
                     timeManager.instance.setTime(incidentIndex);
+                    Debug.Log("Reset time from DraggableUI");
                     
 
                 }

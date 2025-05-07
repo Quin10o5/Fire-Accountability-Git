@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using TMPro;
 using System.Collections.Generic;
@@ -9,6 +10,7 @@ public class dragManager : MonoBehaviour
     public GameObject selectedEngine;
     public int selectedEngineIndex;
     public TMP_Text selectedEngineName;
+    public GameObject removeUnitButton;
     public GameObject[] selectedEnginesButtons;
     public TMP_Text selectedEnginePersonnel;
     [Header("Engine Spawning")]
@@ -25,6 +27,7 @@ public class dragManager : MonoBehaviour
     public Material baseInteriorMaterial;
     public Material engineInteriorCommanderMaterial;
     public Material engineSafetyOfficerMaterial;
+    public Material engineAreaCommanderMaterial;
     [Header("Commanders")]
     public GameObject interiorCommander = null;
     public GameObject safetyOfficer = null;
@@ -61,17 +64,44 @@ public class dragManager : MonoBehaviour
         engineScroller.instance.updateScroller();
         
     }
-
-    public void spawnEngineButton(int i)
+    
+    IEnumerator SetSiblingAfterFrame(GameObject engine)
     {
-        cI.activeEngines.Add(i);
-        cI.engineHolderPositions.Add(null);
-        cI.engineCommanderInfo.Add(null);
-        cI.engineTimes.Add(DateTime.MinValue.ToShortTimeString());
-        cI.engineUVal.Add(-0.1f);
+        yield return null; // Wait for the next frame
+        engine.transform.SetSiblingIndex(0); // Move it to the top
+        Debug.Log("Engine moved to the top after frame.");
+    }
+
+    public void spawnEngineButton(int i, bool atTop = false, bool addToList = true)
+    {
+        if (addToList)
+        {
+            cI.activeEngines.Add(i);
+            cI.engineHolderPositions.Add(null);
+            cI.engineCommanderInfo.Add(null);
+            cI.engineTimes.Add(DateTime.MinValue.ToShortTimeString());
+            cI.engineUVal.Add(-0.1f);
+        }
+        else
+        {
+            cI.activeEngines[i] = i;
+            cI.engineHolderPositions[i] = null;
+            cI.engineCommanderInfo[i] = null;
+            cI.engineTimes[i] = DateTime.MinValue.ToShortTimeString();
+            cI.engineUVal[i] = -0.1f;
+        }
+        
         
         GameObject engine = Instantiate(uiPrefab, transform);
         engine.transform.SetParent(dragDropParent);
+        
+        
+
+        if (atTop)
+        { 
+            StartCoroutine(SetSiblingAfterFrame(engine));
+        }
+        
         engine.GetComponentInChildren<TMP_Text>().text = eSO.engineNames[i];
             
         DraggableUI draggableUI = engine.GetComponent<DraggableUI>();
@@ -80,6 +110,56 @@ public class dragManager : MonoBehaviour
         draggableUI.company = eSO.enginePersonel[i];
         e.AddToArray(engine);
     }
+    
+    /// <summary>
+    /// Removes the currently selected engine from the world
+    /// and re-creates its UI button at the top of the list.
+    /// </summary>
+    public void ReturnSelectedEngineToUI()
+    {
+        if (selectedEngine == null)
+        {
+            Debug.LogWarning("No selected engine to return");
+            return;
+        }
+        var woi = selectedEngine.GetComponent<WorldObjectInteract>();
+        ReturnEngineToUI(woi);
+        selectedEngine = null;
+        selectedEngineIndex = -1;
+        updateUI();
+    }
+
+    public void ReturnEngineToUI(WorldObjectInteract woi)
+    {
+        // 1) Clear any existing command roles
+        woi.ClearCommandStatus();
+
+        // 2) Update holder counts & visuals
+        var holder = woi.eH;
+        holder.companyNum -= woi.company;
+        holder.updateCompanyVis();
+
+        // 3) Unsubscribe its undo-vis delegate
+        undoVis -= woi.undoVis;
+
+        // 4) Log the removal
+        int idx = woi.SOindex;
+        var cI = tM.currentIncident;
+        int incidentIdx = cI.activeEngines.IndexOf(idx);
+        cI.addInfo($"{eSO.engineNames[idx]} removed from {holder.areaName}");
+        cI.engineHolderPositions[incidentIdx] = null;
+        cI.engineTimes[incidentIdx] = DateTime.MinValue.ToShortTimeString();
+
+        // 5) Destroy the world object
+        Destroy(woi.gameObject);
+
+        // 6) Spawn a fresh UI button for this engine
+        spawnEngineButton(idx, /* atTop: */ true, false);
+        updateUI();
+    }
+
+    
+    
     public void deSelect()
     {
         if (undoVis != null)
@@ -99,6 +179,13 @@ public class dragManager : MonoBehaviour
             if (selectedEngine != null)
             {
                 WorldObjectInteract eI = selectedEngine.GetComponent<WorldObjectInteract>();
+                if(eI!=null) {
+                    removeUnitButton.SetActive(true);
+                }
+                else
+                {
+                    removeUnitButton.SetActive(false);
+                }
                 Material mat1 = eI.visRenderer.material;
                 Material mat2 = selectedEngineInteriorMaterial;
 
@@ -111,16 +198,25 @@ public class dragManager : MonoBehaviour
                 else if (mat1.color == engineInteriorCommanderMaterial.color)
                 {
                     selectedEnginesButtons[4].SetActive(true);
+                    selectedEnginesButtons[6].SetActive(true);
                 }
                 else if (mat1.color == engineSafetyOfficerMaterial.color)
                 {
                     selectedEnginesButtons[5].SetActive(true);
+                    selectedEnginesButtons[6].SetActive(true);
                 }
                 else if (mat1.color != mat2.color && mat1.color != engineInteriorMaterial.color)
                 {
                     selectedEnginesButtons[3].SetActive(true);
+                    selectedEnginesButtons[6].SetActive(true);
                 }
             }
+            else
+            {
+                removeUnitButton.SetActive(false);
+            }
+            
+            
 
             // Ensure selectedEngineIndex is within bounds
             if (selectedEngineIndex >= 0 && selectedEngineIndex < eSO.engineNames.Length)
@@ -129,11 +225,21 @@ public class dragManager : MonoBehaviour
             }
             else
             {
-                Debug.LogError("selectedEngineIndex is out of range!");
+                Debug.LogWarning("selectedEngineIndex is out of range! exiting updateUI() function.");
                 return; // Exit the function to prevent further errors
             }
 
             selectedEnginePersonnel.text = eSO.enginePersonel[selectedEngineIndex].ToString();
+    }
+    
+    
+    public void clearCommand()
+    {
+        WorldObjectInteract s = selectedEngine.GetComponent<WorldObjectInteract>();
+
+        s.ClearCommandStatus();
+        
+        
     }
 
     public void setCommander()

@@ -6,6 +6,8 @@ using UnityEngine;
 using System;
 public class popUpsManager : MonoBehaviour
 {
+    public bool fireControlled = false;
+    public bool waterOnFire = false;
     public static popUpsManager instance;
     private timeManager tM;
     public enginesSO eSO;
@@ -183,7 +185,7 @@ public class popUpsManager : MonoBehaviour
             eSO.enginePersonel = ePersonnel.ToArray();
             List<int> aEngines = dM.activeEngines.ToList();
             aEngines.Add(eSO.engineNames.Length - 1);
-            dM.spawnEngineButton(eSO.engineNames.Length - 1);
+            dM.spawnEngineButton(eSO.engineNames.Length - 1, true);
             dM.updateUI();
             closePopUp();
         }
@@ -206,7 +208,7 @@ public class popUpsManager : MonoBehaviour
         noteString = noteText.text;
         if(noteString != "")
         {
-            tM.currentIncident.addInfo(noteString);
+            tM.currentIncident.addInfo(noteString, "NOTE");
             closePopUp();
         }
         else
@@ -231,11 +233,23 @@ public class popUpsManager : MonoBehaviour
         }
     }
 
-    public void fireControlled(GameObject button)
+    public void fireControlledUpdate(GameObject visual)
     {
         tM = timeManager.instance;
-        tM.currentIncident.info.Add($"\n\n {DateTime.Now.ToLongTimeString()}: FIRE UNDER CONTROL\n\n");
-        button.SetActive(false);
+        fireControlled = !fireControlled;
+        visual.SetActive(fireControlled);
+        if(fireControlled) tM.currentIncident.info.Add($"\n\n {DateTime.Now.ToLongTimeString()}: FIRE UNDER CONTROL\n\n");
+        else tM.currentIncident.info.Add($"\n\n {DateTime.Now.ToLongTimeString()}: FIRE NO LONGER UNDER CONTROL\n\n");
+        
+    }
+    public void WaterOnFireUpdate(GameObject visual)
+    {
+        tM = timeManager.instance;
+        waterOnFire = !waterOnFire;
+        visual.SetActive(waterOnFire);
+        if(waterOnFire) tM.currentIncident.addInfo("Water is on the fire");
+        else tM.currentIncident.addInfo("Water is off the fire");
+        
     }
     
 }

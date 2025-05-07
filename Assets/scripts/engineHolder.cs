@@ -20,7 +20,9 @@ public class engineHolder : MonoBehaviour
     [Header("Selection and Search Visualization")]
     public MeshRenderer[] insideOutsideVis;
     public Material[] insideOutsideMaterials;
-    public int searchCompletion;
+    public float searchCompletion = 0;
+    public float visUpdateTime = 1.5f;
+    private float trueSearchCompletion = 0;
 
     [Header("Company Visualization")] 
     public int companyNum;
@@ -108,6 +110,24 @@ public class engineHolder : MonoBehaviour
             companyNumText.text = companyNum.ToString();
         }
     }
+
+    public IEnumerator changeSearchVis(float newSearchCompletion)
+    {
+        searchCompletion = newSearchCompletion;
+        float startTime = Time.time;
+        float endTime = startTime + visUpdateTime;
+        int outlineColorID = Shader.PropertyToID("_searchCompletion");
+        while (Time.time < endTime)
+        {
+            float u = (Time.time - startTime) / visUpdateTime;
+            trueSearchCompletion = Mathf.Lerp(trueSearchCompletion, searchCompletion, u);
+            insideOutsideVis[1].material.SetFloat(outlineColorID, (float)trueSearchCompletion);
+            yield return null;
+        }
+        
+        
+    }
+    
     
     public void setCommander(GameObject commander)
     {

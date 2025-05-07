@@ -164,6 +164,7 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 3a87568627443674ca7f88abbac136e6, type: 2}
   - {fileID: 2100000, guid: da0d10f8e7a34c648a18f12f76b937e5, type: 2}
   searchCompletion: 0
+  visUpdateTime: 1.5
   companyNum: 0
   companyNumText: {fileID: 2891250235480891576}
   littlePeople:

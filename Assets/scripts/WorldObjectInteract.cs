@@ -156,6 +156,10 @@ public class WorldObjectInteract : MonoBehaviour, IPointerDownHandler, IDragHand
                     {
                         eI.baseMat = baseMat;
                         eI.selectedMat = selectedMat;
+                        if (eH.currentCommander == this.gameObject)
+                        {
+                            eH.currentCommander = e;
+                        }
                     }
                     else if (baseMat != eI.baseMat)
                     {
@@ -200,6 +204,7 @@ public class WorldObjectInteract : MonoBehaviour, IPointerDownHandler, IDragHand
                         eH.companyNum -= company;
                         eH2.companyNum += company;
                         timeManager.instance.setTime(incidentIndex);
+                        Debug.Log("Reset time from WOI");
                         eH.updateCompanyVis();
                         cI.addInfo($"{enginesSO.engineNames[SOindex]} moved to {eI.currentArea}");
                     }
@@ -253,6 +258,67 @@ public class WorldObjectInteract : MonoBehaviour, IPointerDownHandler, IDragHand
             // Optionally reset position or take another action
         }
     }
+    
+    public void ClearCommandStatus()
+    {
+        // grab singletons
+        var dm = dragManager.instance;
+        var tm = dm.tM;
+        var cI = tm.currentIncident;
+
+        // find our index & name
+        int incidentIndex = cI.activeEngines.IndexOf(SOindex);
+        string name = enginesSO.engineNames[SOindex];
+
+        // 1) Incident Commander?
+        if (dm.interiorCommander == gameObject)
+        {
+            dm.interiorCommander = null;
+            cI.addInfo($"{name} is no longer Incident Commander");
+            cI.engineCommanderInfo[incidentIndex] = null;
+        }
+
+        // 2) Safety Officer?
+        if (dm.safetyOfficer == gameObject)
+        {
+            dm.safetyOfficer = null;
+            cI.addInfo($"{name} is no longer Safety Chief Officer");
+            cI.engineCommanderInfo[incidentIndex] = null;
+        }
+
+        // 3) Area Commander?
+        if (eH.currentCommander == gameObject)
+        {
+            eH.currentCommander = null;
+            cI.addInfo($"{name} is no longer commanding {eH.areaName}");
+            cI.engineCommanderInfo[incidentIndex] = null;
+
+            // reset the holder's visual to its default
+            if (eH.insideOutsideVis.Length > 0 && eH.insideOutsideMaterials.Length > 0)
+                eH.insideOutsideVis[0].material = eH.insideOutsideMaterials[0];
+        }
+
+        // 4) reset this engine's own visual
+        
+        selectedMat = dm.selectedEngineInteriorMaterial;
+        baseMat = dm.engineInteriorMaterial;
+        visRenderer.material = selectedMat;
+        // 5) refresh any UI buttons, etc.
+        dm.updateUI();
+    }
+    
+    /// <summary>
+    /// Shortcut to send this engine back to the UI list.
+    /// </summary>
+    public void ReturnToUI()
+    {
+        dragManager.instance.ReturnEngineToUI(this);
+    }
+
+
+
+
+    
     void CopyPublicVariables<T>(T source, T target)
     {
         if (source == null || target == null) return;

@@ -99,10 +99,13 @@ public class DraggableSearch : MonoBehaviour, IPointerDownHandler, IDragHandler,
         if (Physics.Raycast(ray, out RaycastHit hit) && hit.collider.gameObject.tag == "Building")
         {
             engineHolder e = hit.collider.gameObject.GetComponent<engineHolder>();
-            int outlineColorID = Shader.PropertyToID("_outline_Color");
-            e.insideOutsideVis[1].material.SetColor(outlineColorID, searchColor);
-            e.searchCompletion = searchCompletion;
+
+            StartCoroutine(e.changeSearchVis(searchCompletion)) ;
             currentIncident cI = dragManager.instance.tM.currentIncident;
+            if (searchCompletion == 0)
+            {
+                cI.addInfo($"Search status reset in {e.areaName}");
+            }
             if (searchCompletion == 1)
             {
                 cI.addInfo($"Primary search completed in {e.areaName}");

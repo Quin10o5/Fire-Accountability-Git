@@ -14,10 +14,13 @@ public class popUpController : MonoBehaviour
     public TMP_InputField newName;
     public TMP_InputField newPersonnel;
     public TMP_InputField changedName;
+    public TMP_InputField warningTime;
+    public TMP_InputField alertTime;
     private string companyNameString;
     private int companyPersonnelNumInt;
     private string companyChangedNameString;
     public GameObject doublePopUp;
+    public TMP_Text doublePopUpText;
     // Start is called before the first frame update
     void Awake()
     {
@@ -41,6 +44,7 @@ public class popUpController : MonoBehaviour
         }
         header.text = headerStrings[which];
         activePopUp = which;
+        UpdateTimerPresets();
     }
     
     public bool confirmNum()
@@ -76,6 +80,33 @@ public class popUpController : MonoBehaviour
         doublePopUp.SetActive(false);
     }
 
+    public void UpdateTimerPresets()
+    {
+        warningTime.text = PlayerPrefs.GetInt("warningTimeMinutes", 10).ToString();
+        alertTime.text = PlayerPrefs.GetInt("alertTimeMinutes", 15).ToString();
+    }
+
+    public void ConfirmChangedTimers()
+    {
+        if (int.TryParse(warningTime.text, out int warningTimeInt) &&
+            int.TryParse(alertTime.text, out int alertTimeInt) && alertTimeInt > warningTimeInt && warningTimeInt >= 1)
+        {
+            PlayerPrefs.SetInt("warningTimeMinutes", warningTimeInt);
+            PlayerPrefs.SetInt("alertTimeMinutes", alertTimeInt);
+            closePopUp();
+        }
+        else
+        {
+            ErrorMSG("Please input valid timers. Alert time must be greater than warning time.");
+        }
+    }
+
+    public void ErrorMSG(string msg)
+    {
+        doublePopUp.SetActive(true);
+        doublePopUpText.text = msg;
+    }
+
     public void confirm()
     {
         if (activePopUp == 0)
@@ -100,7 +131,7 @@ public class popUpController : MonoBehaviour
             else
             {
                 Debug.Log("invalid input");
-                doublePopUp.SetActive(true);
+                ErrorMSG("Please input valid unit name and personnel.");
             }
         }
         else if (activePopUp == 2)
@@ -115,8 +146,12 @@ public class popUpController : MonoBehaviour
             else
             {
                 Debug.Log("invalid input");
-                doublePopUp.SetActive(true);
+                ErrorMSG("Please input valid unit name.");
             }
+        }
+        else if (activePopUp == 3)
+        {
+            ConfirmChangedTimers();
         }
         
     }
