@@ -85,7 +85,7 @@ public class dollyManager : MonoBehaviour
                     currentPoint = Vector3.zero;
                     offset = Vector3.zero;
                     dollyY.m_Speed = 0;
-                    dollyY.m_Speed = 0;
+                    dollyX.m_Speed = 0;
                     magnitude = 0;
                 }
             }
@@ -95,7 +95,7 @@ public class dollyManager : MonoBehaviour
                 currentPoint = Vector3.zero;
                 offset = Vector3.zero;
                 dollyY.m_Speed = 0;
-                dollyY.m_Speed = 0;
+                dollyX.m_Speed = 0;
                 magnitude = 0;
             }
         }
@@ -107,6 +107,7 @@ public class dollyManager : MonoBehaviour
             offset = currentPoint - startPoint;
             magnitude = offset.magnitude;
             offset = offset.normalized;
+            offset = new Vector3(-offset.x, offset.y, 0);
             dollyY.m_Speed = magnitude * (speedMultiplierY/1000) * offset.y;
             dollyX.m_Speed = magnitude * (speedMultiplierY/1000) * offset.x;
 

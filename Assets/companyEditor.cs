@@ -43,7 +43,7 @@ public class companyEditor : MonoBehaviour
                 companyLists[i].transform.GetChild(j).gameObject.SetActive(false);}
             companyLists[i].SetActive(false);
         }
-        int activeLists = Mathf.CeilToInt(((float)eSO.engineNames.Length)/7);
+        int activeLists = Mathf.CeilToInt(((float)eSO.engineNames.Length)/5);
         int currentEngine = 0;
         for (int i = 0; i < activeLists; i++)
         {

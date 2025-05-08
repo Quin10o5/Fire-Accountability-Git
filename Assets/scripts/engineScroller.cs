@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 public class engineScroller : MonoBehaviour
 {
+    public int buttonLimit = 6;
     public static engineScroller instance;
 
     public Transform engineParent;
@@ -15,6 +16,21 @@ public class engineScroller : MonoBehaviour
     // Start is called before the first frame update
     public void updateScroller()
     {
+        // Calculate how many buttons fit inside the parent Transform (Vertical Layout Group)
+        var layoutGroup = engineParent.GetComponent<VerticalLayoutGroup>();
+        if (layoutGroup != null)
+        {
+            // Get parent height
+            float parentHeight = engineParent.GetComponent<RectTransform>().rect.height;
+    
+            // Get button height, including spacing
+            float buttonHeight = engineButtons.Length > 0 
+                ? engineButtons[0].GetComponent<RectTransform>().rect.height + layoutGroup.spacing 
+                : 0;
+
+            // Calculate the number of buttons that fit within the height
+            buttonLimit = buttonHeight > 0 ? Mathf.FloorToInt(parentHeight / buttonHeight) : buttonLimit;
+        }
         
         for (int i = 0; i < engineButtons.Length; i++)
         {
@@ -22,10 +38,10 @@ public class engineScroller : MonoBehaviour
         }
         
         // Check if there are more than 6 buttons
-        if (engineButtons.Length > 6)
+        if (engineButtons.Length > buttonLimit)
         {
             // Loop through the overflow buttons and set them inactive
-            for (int i = 6; i < engineButtons.Length; i++)
+            for (int i = buttonLimit; i < engineButtons.Length; i++)
             {
                 engineButtons[i].SetActive(false);
             }
@@ -95,7 +111,7 @@ public class engineScroller : MonoBehaviour
     // Reorder children of engineParent based on the new visibility
     for (int i = 0; i < engineButtons.Length; i++)
     {
-        if (i >= startIndex && i < startIndex + 8)
+        if (i >= startIndex && i < startIndex + buttonLimit)
         {
             // Keep the buttons in the current viewing range active
             engineButtons[i].SetActive(true);
@@ -113,5 +129,11 @@ public class engineScroller : MonoBehaviour
     {
         instance = this;
         s = GetComponent<Scrollbar>();
+        
+        
+
+        
+        
+        
     }
 }

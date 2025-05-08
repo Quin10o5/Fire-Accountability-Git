@@ -25,9 +25,9 @@ public class WorldObjectInteract : MonoBehaviour, IPointerDownHandler, IDragHand
     private void Start()
     {
         // Define the plane at the object's starting position, facing the camera
-        dragPlane = new Plane(-Camera.main.transform.forward, transform.position);
+        //dragPlane = new Plane(-Camera.main.transform.forward, transform.position);
         enginePrefab = dragManager.instance.enginePrefab;
-        lookPoint = Camera.main.transform.position;
+        
     }
 
     public void undoVis()
@@ -39,6 +39,8 @@ public class WorldObjectInteract : MonoBehaviour, IPointerDownHandler, IDragHand
 
     public void OnPointerDown(PointerEventData eventData)
     {
+        dragPlane = new Plane(-Camera.main.transform.forward, transform.position);
+        lookPoint = Camera.main.transform.position;
         isDragging = true;
 
         // Calculate offset between object and plane intersection at pointer down
@@ -60,10 +62,11 @@ public class WorldObjectInteract : MonoBehaviour, IPointerDownHandler, IDragHand
 
     }
 
-    
+     
     public void OnDrag(PointerEventData eventData)
     {
         if (!isDragging) return;
+        //dragPlane = new Plane(-Camera.main.transform.forward, transform.position);
         Ray ray = Camera.main.ScreenPointToRay(eventData.position);
         if (dragPlane.Raycast(ray, out float enter))
         {
