@@ -4,6 +4,7 @@ using UnityEngine.EventSystems;
 using TMPro;
 public class DraggableUI : MonoBehaviour, IPointerDownHandler, IDragHandler, IPointerUpHandler
 {
+    public bool forceToTop = false;
     private RectTransform rectTransform;
     private Canvas canvas; 
     private CanvasGroup canvasGroup; 

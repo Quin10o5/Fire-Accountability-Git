@@ -69,6 +69,7 @@ public class dragManager : MonoBehaviour
     {
         yield return null; // Wait for the next frame
         engine.transform.SetSiblingIndex(0); // Move it to the top
+        engine.GetComponent<DraggableUI>().forceToTop = true; // Force it to the top
         Debug.Log("Engine moved to the top after frame.");
     }
 
@@ -76,11 +77,23 @@ public class dragManager : MonoBehaviour
     {
         if (addToList)
         {
-            cI.activeEngines.Add(i);
-            cI.engineHolderPositions.Add(null);
-            cI.engineCommanderInfo.Add(null);
-            cI.engineTimes.Add(DateTime.MinValue.ToShortTimeString());
-            cI.engineUVal.Add(-0.1f);
+            if (atTop)
+            {
+                cI.activeEngines.Insert(0, i);
+                cI.engineHolderPositions.Insert(0, null);
+                cI.engineCommanderInfo.Insert(0, null);
+                cI.engineTimes.Insert(0, DateTime.MinValue.ToShortTimeString());
+                cI.engineUVal.Insert(0, -0.1f);
+            }
+            else
+            {
+                cI.activeEngines.Add(i);
+                cI.engineHolderPositions.Add(null);
+                cI.engineCommanderInfo.Add(null);
+                cI.engineTimes.Add(DateTime.MinValue.ToShortTimeString());
+                cI.engineUVal.Add(-0.1f);
+            }
+            
         }
         else
         {
@@ -108,7 +121,8 @@ public class dragManager : MonoBehaviour
         draggableUI.enginesSO = eSO;
         draggableUI.SOindex = i;
         draggableUI.company = eSO.enginePersonel[i];
-        e.AddToArray(engine);
+        if(atTop) e.AddToArray(engine, true);
+        else e.AddToArray(engine);
     }
     
     /// <summary>

@@ -129,8 +129,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3578215715894344987}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.013564658, y: 0.7073646, z: -0.013579698, w: 0.70658827}
-  m_LocalPosition: {x: -0.13395226, y: 0.00983116, z: 0.00015813485}
+  m_LocalRotation: {x: 0.052956622, y: 0.70556015, z: -0.053023174, w: 0.70467657}
+  m_LocalPosition: {x: 0.06512928, y: -0.008806169, z: -0.0000794176}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -261,12 +261,15 @@ MonoBehaviour:
   fakeTwoTouches: 0
   dollyY: {fileID: 6578598383303496278}
   dollyX: {fileID: 893091331776476071}
-  startPoint: {x: 0, y: 0, z: 0}
-  currentPoint: {x: 0, y: 0, z: 0}
-  offset: {x: 0, y: 0, z: 0}
   speedMultiplierY: 1.5
-  speedMultiplierX: 0.35
-  magnitude: 0
+  speedMultiplierX: 0.4
+  maxYForXClamp: 0.15
+  maxXRange: 1
+  snapThreshold: 0.07
+  snapMinSpeed: 0.2
+  snapMaxSpeed: 1
+  clampSmoothTime: 0.2
+  maxOffsetForClamp: 0.7
 --- !u!1 &7211668050951501864
 GameObject:
   m_ObjectHideFlags: 0
@@ -322,7 +325,7 @@ MonoBehaviour:
     roll: 0
   - position: {x: 0, y: 0, z: 0}
     roll: 0
-  - position: {x: 0.008291821, y: -2.2938492, z: 2.8998141}
+  - position: {x: 0.008291872, y: -2.411226, z: 3.3419633}
     roll: 0
 --- !u!1 &8896153639922725535
 GameObject:
@@ -353,14 +356,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8896153639922725535}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.59841055, y: -0.36071295, z: 0.608499, w: 0.37619153}
-  m_LocalPosition: {x: -0.08, y: -0.36, z: -0.11}
+  m_LocalRotation: {x: 0.59003747, y: -0.3898318, z: 0.5887794, w: 0.3914407}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2804948451526590949}
   m_Father: {fileID: 3644387152734700478}
-  m_LocalEulerAnglesHint: {x: 115.784, y: -67.746, z: 22.738007}
+  m_LocalEulerAnglesHint: {x: 112.92999, y: -89.96701, z: -0.13400269}
 --- !u!20 &2470632666733251854
 Camera:
   m_ObjectHideFlags: 0

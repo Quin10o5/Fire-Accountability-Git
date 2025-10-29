@@ -34,16 +34,16 @@ public class engineScroller : MonoBehaviour
         
         for (int i = 0; i < engineButtons.Length; i++)
         {
-            engineButtons[i].SetActive(true);
+            engineButtons[i].SetActive(false);
         }
         
         // Check if there are more than 6 buttons
         if (engineButtons.Length > buttonLimit)
         {
             // Loop through the overflow buttons and set them inactive
-            for (int i = buttonLimit; i < engineButtons.Length; i++)
+            for (int i = 0; i < buttonLimit; i++)
             {
-                engineButtons[i].SetActive(false);
+                engineButtons[i].SetActive(true);
             }
 
             // Set this gameObject as active
@@ -82,13 +82,14 @@ public class engineScroller : MonoBehaviour
     updateScroller();
     }
     
-    public void AddToArray(GameObject engineButton)
+    public void AddToArray(GameObject engineButton, bool atTop = false)
     {
         // Remove the specified button from the array
         List<GameObject> buttonList = new List<GameObject>(engineButtons); // Convert the array to a list for easier manipulation
         if (!buttonList.Contains(engineButton))
         {
-            buttonList.Add(engineButton);
+            if(atTop) buttonList.Insert(0, engineButton);
+            else buttonList.Add(engineButton);
         }
 
         // Update the engineButtons array

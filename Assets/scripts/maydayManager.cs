@@ -7,7 +7,9 @@ using UnityEngine.UI;
 
 public class maydayManager : MonoBehaviour
 {
+    public bool calledManpower = false;
     public bool maydayActive;
+    public Toggle calledManpowerToggle;
     public GameObject alertParent;
     public float blinkTime = 1;
     public TMP_Text timerText;
@@ -36,8 +38,12 @@ public class maydayManager : MonoBehaviour
         {
             yield return new WaitForSeconds(blinkTime);
             alertParent.SetActive(true);
-            yield return new WaitForSeconds(blinkTime);
-            alertParent.SetActive(false);
+            if (!calledManpower)
+            {
+                yield return new WaitForSeconds(blinkTime);
+                alertParent.SetActive(false);
+            }
+            
             
         }
     }
@@ -66,6 +72,20 @@ public class maydayManager : MonoBehaviour
         foundVictims = value;
         if(!value) return;
         cI.addInfo("A victim was found.");
+    }
+
+
+    public void ToggleCalledManpower()
+    {
+        calledManpower = calledManpowerToggle.isOn;
+        if (calledManpower)
+        {
+            cI.addInfo("Called manpower.");
+        }
+        else
+        {
+            cI.addInfo("Returned manpower.");
+        }
     }
 
     // Update is called once per frame

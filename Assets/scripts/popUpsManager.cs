@@ -4,6 +4,8 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 using System;
+using Unity.VisualScripting;
+
 public class popUpsManager : MonoBehaviour
 {
     public bool fireControlled = false;
@@ -238,8 +240,22 @@ public class popUpsManager : MonoBehaviour
         tM = timeManager.instance;
         fireControlled = !fireControlled;
         visual.SetActive(fireControlled);
-        if(fireControlled) tM.currentIncident.info.Add($"\n\n {DateTime.Now.ToLongTimeString()}: FIRE UNDER CONTROL\n\n");
-        else tM.currentIncident.info.Add($"\n\n {DateTime.Now.ToLongTimeString()}: FIRE NO LONGER UNDER CONTROL\n\n");
+        if(fireControlled)
+        {
+            tM.currentIncident.info.Add($"\n\n {DateTime.Now.ToLongTimeString()}: FIRE UNDER CONTROL\n\n");
+            if (tM.logText != null)
+            {
+                tM.logText.text = $"{DateTime.Now.ToLongTimeString()}: FIRE UNDER CONTROL";
+            }
+        }
+        else
+        {
+            tM.currentIncident.info.Add($"\n\n {DateTime.Now.ToLongTimeString()}: FIRE NO LONGER UNDER CONTROL\n\n");
+            if (tM.logText != null)
+            {
+                tM.logText.text = $"{DateTime.Now.ToLongTimeString()}: FIRE NO LONGER UNDER CONTROL";
+            }
+        }
         
     }
     public void WaterOnFireUpdate(GameObject visual)
