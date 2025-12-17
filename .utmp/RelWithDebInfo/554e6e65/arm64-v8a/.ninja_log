@@ -1,0 +1,5 @@
+# ninja log v5
+0	456	7834792444068347	FramePacing/CMakeFiles/swappywrapper.dir/UnitySwappyWrapper.cpp.o	8463c46431a1cc5b
+457	628	7834792445707146	C:/Users/quint/Desktop/Fire Accountability Git/Fire-Accountability-Git/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/RelWithDebInfo/554e6e65/obj/arm64-v8a/libswappywrapper.so	521e2d48eacbef8b
+6	1323	7840672523756576	FramePacing/CMakeFiles/swappywrapper.dir/UnitySwappyWrapper.cpp.o	8463c46431a1cc5b
+1323	1818	7840672528706293	C:/Users/quint/Desktop/Fire Accountability Git/Fire-Accountability-Git/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/RelWithDebInfo/554e6e65/obj/arm64-v8a/libswappywrapper.so	521e2d48eacbef8b
