@@ -19,3 +19,15 @@ MonoBehaviour:
   - Sample 4
   - Sample 5
   enginePersonel: 0400000006000000050000000700000008000000
+  cyclingButtonColors:
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  - {r: 1, g: 0, b: 0, a: 1}
+  engineWarningColors:
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  - {r: 1, g: 0, b: 0, a: 1}
+  engineWarningTime: 10
+  engineSevereWarningTime: 15
+  cycleWarningTime: 1
+  cycleSevereWarningTime: 2

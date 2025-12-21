@@ -14,7 +14,7 @@ public class WorldObjectInteract : MonoBehaviour, IPointerDownHandler, IDragHand
     private MeshRenderer lastSelected;
     private Material lastSelectedMaterial;
     private Vector3 lookPoint;
-    public enginesSO enginesSO;
+    [FormerlySerializedAs("settingsSo")] [FormerlySerializedAs("enginesSO")] public enginesSO enginesSo;
     public int SOindex;
     public int index;
     public Material selectedMat;
@@ -188,7 +188,7 @@ public class WorldObjectInteract : MonoBehaviour, IPointerDownHandler, IDragHand
                             eI.selectedMat = d.selectedEngineInteriorMaterial;
                             currentIncident cI2 = d.tM.currentIncident;
                             int incidentIndex2 = cI2.activeEngines.IndexOf(SOindex);
-                            cI2.addInfo($"{enginesSO.engineNames[SOindex]} is no longer commanding {currentArea}");
+                            cI2.addInfo($"{enginesSo.engineNames[SOindex]} is no longer commanding {currentArea}");
                             cI2.engineCommanderInfo[incidentIndex2] = null;
                         }
                         
@@ -199,7 +199,7 @@ public class WorldObjectInteract : MonoBehaviour, IPointerDownHandler, IDragHand
                     eI.company = company;
                     eI.eH = eH2;
                     eI.currentArea = eH2.areaName;
-                    eI.enginesSO = enginesSO;
+                    eI.enginesSo = enginesSo;
                     eI.SOindex = SOindex;
                     eI.visRenderer.material = eI.selectedMat;
                     if (eH != eH2)
@@ -209,7 +209,7 @@ public class WorldObjectInteract : MonoBehaviour, IPointerDownHandler, IDragHand
                         timeManager.instance.setTime(incidentIndex);
                         Debug.Log("Reset time from WOI");
                         eH.updateCompanyVis();
-                        cI.addInfo($"{enginesSO.engineNames[SOindex]} moved to {eI.currentArea}");
+                        cI.addInfo($"{enginesSo.engineNames[SOindex]} moved to {eI.currentArea}");
                     }
                     if (this.gameObject == d.interiorCommander)
                     {
@@ -229,7 +229,7 @@ public class WorldObjectInteract : MonoBehaviour, IPointerDownHandler, IDragHand
                     d.selectedEngineIndex = SOindex;
                     d.selectedEngine = eI.gameObject;
                     d.updateUI();
-                    e.GetComponentInChildren<TMP_Text>().text = enginesSO.engineNames[SOindex];
+                    e.GetComponentInChildren<TMP_Text>().text = enginesSo.engineNames[SOindex];
                     
                     //Debug.Log("Placed Engine");
                     dragManager.instance.undoVis += eI.undoVis;
@@ -271,7 +271,7 @@ public class WorldObjectInteract : MonoBehaviour, IPointerDownHandler, IDragHand
 
         // find our index & name
         int incidentIndex = cI.activeEngines.IndexOf(SOindex);
-        string name = enginesSO.engineNames[SOindex];
+        string name = enginesSo.engineNames[SOindex];
 
         // 1) Incident Commander?
         if (dm.interiorCommander == gameObject)

@@ -8,13 +8,21 @@ using System.Collections.Generic;
 [CreateAssetMenu(fileName = "EnginesData", menuName = "Scriptables/Engines Data")]
 public class enginesSO : ScriptableObject
 {
+    [Header("Units")]
     public string[] engineNames;
     public int[] enginePersonel;
+    [Header("Warnings")]
+    public Color[] cyclingButtonColors = new Color[] { Color.white, Color.yellow, Color.red};
+    public Color[] engineWarningColors = new Color[] { Color.white, Color.yellow, Color.red};
+    public int engineWarningTime = 10;
+    public int engineSevereWarningTime = 15;
+    public int cycleWarningTime = 10;
+    public int cycleSevereWarningTime = 15;
  
     public void SaveData()
     {
         // "this" refers to the current ScriptableObject instance
-        ES3.Save("enginesSO", this);
+        ES3.Save("enginesSO", this); // leave old name for deprecation purposes
         Debug.Log("ScriptableObject saved!");
     }
 
@@ -22,7 +30,7 @@ public class enginesSO : ScriptableObject
     public void LoadData()
     {
         // Load into a temporary instance
-        var loadedData = ES3.Load<enginesSO>("enginesSO", defaultValue: this);
+        var loadedData = ES3.Load<enginesSO>("enginesSO", defaultValue: this); // leave old name for deprecation purposes
 
         // Overwrite fields on 'this' with loadedData’s fields
         this.engineNames = loadedData.engineNames;

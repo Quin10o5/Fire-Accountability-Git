@@ -118,7 +118,7 @@ public class dragManager : MonoBehaviour
         engine.GetComponentInChildren<TMP_Text>().text = eSO.engineNames[i];
             
         DraggableUI draggableUI = engine.GetComponent<DraggableUI>();
-        draggableUI.enginesSO = eSO;
+        draggableUI.enginesSo = eSO;
         draggableUI.SOindex = i;
         draggableUI.company = eSO.enginePersonel[i];
         if(atTop) e.AddToArray(engine, true);

@@ -2,6 +2,8 @@ using System.Reflection;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using TMPro;
+using UnityEngine.Serialization;
+
 public class DraggableUI : MonoBehaviour, IPointerDownHandler, IDragHandler, IPointerUpHandler
 {
     public bool forceToTop = false;
@@ -14,7 +16,7 @@ public class DraggableUI : MonoBehaviour, IPointerDownHandler, IDragHandler, IPo
     private MeshRenderer lastSelected;
     private Material lastSelectedMaterial;
     private Transform holderTransform;
-    public enginesSO enginesSO;
+    [FormerlySerializedAs("settingsSo")] [FormerlySerializedAs("enginesSO")] public enginesSO enginesSo;
     public int SOindex;
     public int company;
     void Awake()
@@ -123,7 +125,7 @@ public class DraggableUI : MonoBehaviour, IPointerDownHandler, IDragHandler, IPo
                     eH.placeEngine(e);
                     WorldObjectInteract eI = e.GetComponent<WorldObjectInteract>();
                     eI.eH = eH;
-                    eI.enginesSO = enginesSO;
+                    eI.enginesSo = enginesSo;
                     eI.SOindex = SOindex;
                     eI.company = company;
                     eI.currentArea = eH.areaName;
@@ -132,11 +134,11 @@ public class DraggableUI : MonoBehaviour, IPointerDownHandler, IDragHandler, IPo
                     d.updateUI();
                     d.deSelect();
                     dragManager.instance.undoVis += eI.undoVis;
-                    e.GetComponentInChildren<TMP_Text>().text = enginesSO.engineNames[SOindex];
+                    e.GetComponentInChildren<TMP_Text>().text = enginesSo.engineNames[SOindex];
                     currentIncident cI = d.tM.currentIncident;
                     int incidentIndex = cI.activeEngines.IndexOf(SOindex);
-                    cI.addInfo($"{enginesSO.engineNames[SOindex]} with {enginesSO.enginePersonel[SOindex]} personnel arrived at scene");
-                    cI.addInfo($"{enginesSO.engineNames[SOindex]} was placed in {eI.currentArea}");
+                    cI.addInfo($"{enginesSo.engineNames[SOindex]} with {enginesSo.enginePersonel[SOindex]} personnel arrived at scene");
+                    cI.addInfo($"{enginesSo.engineNames[SOindex]} was placed in {eI.currentArea}");
                     cI.engineHolderPositions[incidentIndex] = eI.currentArea;
                     timeManager.instance.setTime(incidentIndex);
                     Debug.Log("Reset time from DraggableUI");
