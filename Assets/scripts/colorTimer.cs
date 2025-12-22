@@ -10,7 +10,7 @@ public class colorTimer : MonoBehaviour
     public int warningTimeMinutes;
     public int alertTimeMinutes;
     public int incidentIndex;
-    private WorldObjectInteract wOI;
+    private Engine wOI;
     public currentIncident cI;
     public DateTime startTime;
     public Material[] exteriorMaterials;
@@ -45,7 +45,7 @@ public class colorTimer : MonoBehaviour
 
     public void Start()
     {
-        wOI = GetComponent<WorldObjectInteract>();
+        wOI = GetComponent<Engine>();
         cI = timeManager.instance.currentIncident;
         incidentIndex = wOI.SOindex;
         warningTimeMinutes = PlayerPrefs.GetInt("warningTimeMinutes", 10);
@@ -63,7 +63,7 @@ public class colorTimer : MonoBehaviour
         string minutes = elapsed.Minutes.ToString("00");
         string seconds = elapsed.Seconds.ToString("00");
         displayTimer = $"{minutes}:{seconds}";
-        if (wOI.baseMat != exteriorMaterials[1] && int.Parse(minutes) >= alertTimeMinutes)
+        if ( int.Parse(minutes) >= alertTimeMinutes)
         {
             if(int.Parse(seconds)%2==0)
             {
@@ -76,7 +76,7 @@ public class colorTimer : MonoBehaviour
             }
         }
         
-        else if (wOI.baseMat != exteriorMaterials[0] && int.Parse(minutes) >= warningTimeMinutes)
+        else if ( int.Parse(minutes) >= warningTimeMinutes)
         {
             vis.material = exteriorMaterials[0];
 

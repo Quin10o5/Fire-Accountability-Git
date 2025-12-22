@@ -48,7 +48,7 @@ public class timeManager : MonoBehaviour
     public void resetSelectedTime()
     {
         colorTimer c = d.selectedEngine.GetComponent<colorTimer>();
-        currentIncident.addInfo($"{eSO.engineNames[d.selectedEngine.GetComponent<WorldObjectInteract>().SOindex]}'s time was reset from {c.displayTimer}");
+        currentIncident.addInfo($"{eSO.engineNames[d.selectedEngine.GetComponent<Engine>().SOindex]}'s time was reset from {c.displayTimer}");
         timeManager.instance.setTime(c.incidentIndex);
         c.setTime();
     }
@@ -100,14 +100,10 @@ public class timeManager : MonoBehaviour
     public void savePDF()
     {
         string concatInfo = $"INCIDENT INFO - COMPLETED AT {DateTime.Now.ToString()}:\n\n";
-        if (d.interiorCommander != null)
-        {
-            concatInfo += $"Ending Incident Commander:   {eSO.engineNames[d.interiorCommander.GetComponent<WorldObjectInteract>().SOindex]}\n";
-        }
 
-        if (d.safetyOfficer != null)
+        for (int i = 0; i < d.commanders.Length; i++)
         {
-            concatInfo += $"Ending Safety Officer:   {eSO.engineNames[d.safetyOfficer.GetComponent<WorldObjectInteract>().SOindex]}\n";
+            concatInfo += $"Ending {eSO.GetCommandingTitle(d.commanders[i].type)}:   {eSO.engineNames[d.commanders[i].commander.SOindex]}\n";
         }
         TimeSpan elapsed = DateTime.Now - startTime;
 

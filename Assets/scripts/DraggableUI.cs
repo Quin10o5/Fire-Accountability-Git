@@ -45,6 +45,7 @@ public class DraggableUI : MonoBehaviour, IPointerDownHandler, IDragHandler, IPo
         canvasGroup.blocksRaycasts = false;
         dragManager d = dragManager.instance;
         d.selectedEngineIndex = SOindex;
+        d.deSelect();
         d.selectedEngine = null;
         d.updateUI();
         d.deSelect();
@@ -123,17 +124,13 @@ public class DraggableUI : MonoBehaviour, IPointerDownHandler, IDragHandler, IPo
                     
                     eH.companyNum += company;
                     eH.placeEngine(e);
-                    WorldObjectInteract eI = e.GetComponent<WorldObjectInteract>();
+                    Engine eI = e.GetComponent<Engine>();
                     eI.eH = eH;
                     eI.enginesSo = enginesSo;
                     eI.SOindex = SOindex;
                     eI.company = company;
                     eI.currentArea = eH.areaName;
                     dragManager d = dragManager.instance;
-                    d.selectedEngine = eI.gameObject;
-                    d.updateUI();
-                    d.deSelect();
-                    dragManager.instance.undoVis += eI.undoVis;
                     e.GetComponentInChildren<TMP_Text>().text = enginesSo.engineNames[SOindex];
                     currentIncident cI = d.tM.currentIncident;
                     int incidentIndex = cI.activeEngines.IndexOf(SOindex);
@@ -143,6 +140,10 @@ public class DraggableUI : MonoBehaviour, IPointerDownHandler, IDragHandler, IPo
                     timeManager.instance.setTime(incidentIndex);
                     Debug.Log("Reset time from DraggableUI");
                     
+                    d.selectedEngine = eI.gameObject;
+                    eI.Select();
+                    d.updateUI();
+
 
                 }
             }

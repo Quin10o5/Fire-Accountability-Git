@@ -12,6 +12,7 @@ Shader "Custom/Outline Fill" {
 
     _OutlineColor("Outline Color", Color) = (1, 1, 1, 1)
     _OutlineWidth("Outline Width", Range(0, 10)) = 2
+    _Layer("Layer", Integer) = 0
   }
 
   SubShader {
@@ -30,7 +31,7 @@ Shader "Custom/Outline Fill" {
       ColorMask RGB
 
       Stencil {
-        Ref 1
+        Ref [_Layer]
         Comp NotEqual
       }
 

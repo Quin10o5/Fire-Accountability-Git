@@ -11,7 +11,7 @@ public class currentIncident : ScriptableObject
     public List<string> info;
     public List<int> activeEngines;
     public List<string> engineHolderPositions;
-    public List<string> engineCommanderInfo;
+    public List<CommandType> engineCommanderInfo;
     public List<string> engineTimes;
     public List<float> engineUVal;
     

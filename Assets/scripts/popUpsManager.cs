@@ -129,7 +129,7 @@ public class popUpsManager : MonoBehaviour
         engineHolder e = null;
         if (dM.selectedEngine != null)
         {
-            WorldObjectInteract w = dM.selectedEngine.GetComponent<WorldObjectInteract>();
+            Engine w = dM.selectedEngine.GetComponent<Engine>();
             w.company += 1;
             e = w.eH;
         }
@@ -146,7 +146,7 @@ public class popUpsManager : MonoBehaviour
         engineHolder e = null;
         if (dM.selectedEngine != null)
         {
-            WorldObjectInteract w = dM.selectedEngine.GetComponent<WorldObjectInteract>();
+            Engine w = dM.selectedEngine.GetComponent<Engine>();
             w.company -= 1;
             e = w.eH;
         }

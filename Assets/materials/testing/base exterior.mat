@@ -130,7 +130,7 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     - _fresnel_strength: 1.62
-    - _outline_Thickness: 0.02
+    - _outline_Thickness: 0
     - _searchCompletion: 0
     - _updateSpeed: 0
     m_Colors:

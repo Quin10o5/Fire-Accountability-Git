@@ -4332,7 +4332,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1037736341133057314}
         m_TargetAssemblyTypeName: dragManager, Assembly-CSharp
-        m_MethodName: setInteriorCommander
+        m_MethodName: SetIncidentCommander
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4502,7 +4502,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1037736341133057314}
         m_TargetAssemblyTypeName: dragManager, Assembly-CSharp
-        m_MethodName: setSafetyOfficer
+        m_MethodName: SetSafetyOfficer
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5221,9 +5221,9 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 3131105222522208698}
   - {fileID: 1100789419834673160}
   - {fileID: 5664281060658060746}
+  - {fileID: 3131105222522208698}
   m_Father: {fileID: 1034055140966709473}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
@@ -15142,7 +15142,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1037736341133057314}
         m_TargetAssemblyTypeName: dragManager, Assembly-CSharp
-        m_MethodName: setCommander
+        m_MethodName: SetCommanderArea
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -17239,17 +17239,15 @@ MonoBehaviour:
   enginePrefab: {fileID: 331324786393893072, guid: 07f8a6fd6d2c2c643986f3924fc86811, type: 3}
   uiPrefab: {fileID: 6134783727078836736, guid: d38d83fb6bf6b4146a2ca51ed997e38e, type: 3}
   e: {fileID: 575615655112530611}
-  hoverMaterial: {fileID: 2100000, guid: f1493015c3dcb824a8a0d774337df44d, type: 2}
-  engineInteriorMaterial: {fileID: 2100000, guid: b8143d09a2a4bdc46a75c0c2097275f7, type: 2}
-  selectedEngineInteriorMaterial: {fileID: 2100000, guid: 0d53c89705bdcd442b53dab467537333, type: 2}
-  baseInteriorMaterial: {fileID: 2100000, guid: 4ba568213158d324d95cf413a5983bee, type: 2}
-  engineInteriorCommanderMaterial: {fileID: 2100000, guid: abc2b55c96b7c8f4d832ed7bb086d131, type: 2}
-  engineSafetyOfficerMaterial: {fileID: 2100000, guid: b03d3aa53b36c3647b87a3635e96ab1d, type: 2}
-  engineAreaCommanderMaterial: {fileID: 2100000, guid: da0d10f8e7a34c648a18f12f76b937e5, type: 2}
-  interiorCommander: {fileID: 0}
-  safetyOfficer: {fileID: 0}
+  hoverMaterial: {fileID: 2100000, guid: ec1179175ec9b4c0c8faa41f6ee73a0a, type: 2}
+  commanders:
+  - type: 1
+    commander: {fileID: 0}
+  - type: 2
+    commander: {fileID: 0}
   yOffset: 0.276
   tM: {fileID: 0}
+  cI: {fileID: 11400000, guid: 67d168c919c78b949b07905869abb5b1, type: 2}
 --- !u!1 &7643397086884681920
 GameObject:
   m_ObjectHideFlags: 0

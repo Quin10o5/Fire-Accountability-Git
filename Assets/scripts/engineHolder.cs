@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class engineHolder : MonoBehaviour
 {
     [Header("Incident Info")]
+    public enginesSO settings;
     public string areaName = null;
     public TMP_Text areaText;
     public bool full = false;
@@ -19,7 +21,9 @@ public class engineHolder : MonoBehaviour
     
     [Header("Selection and Search Visualization")]
     public MeshRenderer[] insideOutsideVis;
-    public Material[] insideOutsideMaterials;
+
+
+    public Color commandedColor;
     public float searchCompletion = 0;
     public float visUpdateTime = 1.5f;
     private float trueSearchCompletion = 0;
@@ -30,9 +34,12 @@ public class engineHolder : MonoBehaviour
     public GameObject[] littlePeople;
     public int[] littlePeopleOnAt;
     
+    public Outline outline;
+    
     // Start is called before the first frame update
     void Start()
     {
+        outline = GetComponent<Outline>();
         if (areaText == null) return;
         areaText.text = areaName;
     }
@@ -58,7 +65,7 @@ public class engineHolder : MonoBehaviour
                 engine.transform.position = holderPositions[i].position;
                 engine.transform.rotation = holderPositions[i].rotation;
                 engine.transform.localScale = new Vector3( sizeMultiplier, sizeMultiplier, sizeMultiplier);
-                engine.GetComponent<WorldObjectInteract>().index = i;
+                engine.GetComponent<Engine>().index = i;
                 
                 // Exit if engine is placed, assuming one placement per call
                 return;
@@ -73,6 +80,11 @@ public class engineHolder : MonoBehaviour
         
         
         Debug.LogWarning("No null holders found to place the engine.");
+    }
+
+    public void RemoveEngine(Engine engine)
+    {
+        holders[engine.index] = null;
     }
 
 
@@ -129,15 +141,35 @@ public class engineHolder : MonoBehaviour
     }
     
     
-    public void setCommander(GameObject commander)
+    public void SetCommander(GameObject commander)
     {
-        if (currentCommander != null)
-        {
-            WorldObjectInteract w = currentCommander.GetComponent<WorldObjectInteract>();
-            w.visRenderer.material =
-                dragManager.instance.engineInteriorMaterial;
-            w.baseMat = dragManager.instance.engineInteriorMaterial;
-        }
+
+        currentCommander = commander;
+        timeManager t = timeManager.instance;
+        t.currentIncident.addInfo(
+            $"{settings.engineNames[currentCommander.GetComponent<Engine>().SOindex]} is now commanding {areaName}");
+        SetOutline(commandedColor);
         
+    }
+
+    public void ClearCommander()
+    {
+        Debug.Log("Clearing commander");
+            timeManager t = timeManager.instance;
+        if(currentCommander)t.currentIncident.addInfo(
+            $"{settings.engineNames[currentCommander.GetComponent<Engine>().SOindex]} is no longer commanding {areaName}");
+        currentCommander = null;
+        ClearOutline();
+    }
+
+    public void SetOutline(Color outlineColor)
+    {
+        if(!outline.enabled)outline.enabled = true;
+        outline.OutlineColor = outlineColor;
+    }
+
+    public void ClearOutline()
+    {
+        outline.enabled = false;
     }
 }

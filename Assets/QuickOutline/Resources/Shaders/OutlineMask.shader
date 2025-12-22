@@ -9,6 +9,7 @@
 Shader "Custom/Outline Mask" {
   Properties {
     [Enum(UnityEngine.Rendering.CompareFunction)] _ZTest("ZTest", Float) = 0
+    _Layer("Layer", Integer) = 0
   }
 
   SubShader {
@@ -25,7 +26,7 @@ Shader "Custom/Outline Mask" {
       ColorMask 0
 
       Stencil {
-        Ref 1
+        Ref [_Layer]
         Pass Replace
       }
     }

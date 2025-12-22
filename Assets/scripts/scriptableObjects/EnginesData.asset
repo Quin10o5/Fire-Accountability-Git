@@ -12,6 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94492fa1d121d5242b8f778e1b1628ec, type: 3}
   m_Name: EnginesData
   m_EditorClassIdentifier: 
+  commands:
+  - type: 1
+    title: Safety Officer
+    color: {r: 0, g: 0.7202115, b: 1, a: 1}
+  - type: 2
+    title: Incident Commander
+    color: {r: 0.9862414, g: 0.24056602, b: 1, a: 1}
+  - type: 3
+    title: Area Commander
+    color: {r: 1, g: 0.49574798, b: 0, a: 1}
+  selectedColor: {r: 1, g: 1, b: 1, a: 1}
   engineNames:
   - Sample 1
   - Sample 2

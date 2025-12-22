@@ -22,22 +22,15 @@ public class dragManager : MonoBehaviour
     public engineScroller e;
     [Header("Materials")]
     public Material hoverMaterial;  // Material used to highlight engineHolder
-    public Material engineInteriorMaterial;
-    public Material selectedEngineInteriorMaterial;
-    public Material baseInteriorMaterial;
-    public Material engineInteriorCommanderMaterial;
-    public Material engineSafetyOfficerMaterial;
-    public Material engineAreaCommanderMaterial;
     [Header("Commanders")]
-    public GameObject interiorCommander = null;
-    public GameObject safetyOfficer = null;
+    public CommanderData[] commanders;
     public float yOffset = 0.5f;    // Not used in this example, but you can adjust as needed.
     public delegate void simpleEvent();
     public event Action undoVis ;
     [Header("Time Manager")]
     public timeManager tM;
 
-    private currentIncident cI;
+    public currentIncident cI;
 
     void Awake()
     {
@@ -81,7 +74,7 @@ public class dragManager : MonoBehaviour
             {
                 cI.activeEngines.Insert(0, i);
                 cI.engineHolderPositions.Insert(0, null);
-                cI.engineCommanderInfo.Insert(0, null);
+                cI.engineCommanderInfo.Insert(0, CommandType.None);
                 cI.engineTimes.Insert(0, DateTime.MinValue.ToShortTimeString());
                 cI.engineUVal.Insert(0, -0.1f);
             }
@@ -89,7 +82,7 @@ public class dragManager : MonoBehaviour
             {
                 cI.activeEngines.Add(i);
                 cI.engineHolderPositions.Add(null);
-                cI.engineCommanderInfo.Add(null);
+                cI.engineCommanderInfo.Add(CommandType.None);
                 cI.engineTimes.Add(DateTime.MinValue.ToShortTimeString());
                 cI.engineUVal.Add(-0.1f);
             }
@@ -99,7 +92,7 @@ public class dragManager : MonoBehaviour
         {
             cI.activeEngines[i] = i;
             cI.engineHolderPositions[i] = null;
-            cI.engineCommanderInfo[i] = null;
+            cI.engineCommanderInfo[i] = CommandType.None;
             cI.engineTimes[i] = DateTime.MinValue.ToShortTimeString();
             cI.engineUVal[i] = -0.1f;
         }
@@ -136,14 +129,14 @@ public class dragManager : MonoBehaviour
             Debug.LogWarning("No selected engine to return");
             return;
         }
-        var woi = selectedEngine.GetComponent<WorldObjectInteract>();
+        var woi = selectedEngine.GetComponent<Engine>();
         ReturnEngineToUI(woi);
         selectedEngine = null;
         selectedEngineIndex = -1;
         updateUI();
     }
 
-    public void ReturnEngineToUI(WorldObjectInteract woi)
+    public void ReturnEngineToUI(Engine woi)
     {
         // 1) Clear any existing command roles
         woi.ClearCommandStatus();
@@ -176,10 +169,7 @@ public class dragManager : MonoBehaviour
     
     public void deSelect()
     {
-        if (undoVis != null)
-        {
-            undoVis.Invoke();
-        }
+        if(selectedEngine != null) selectedEngine.GetComponent<Engine>().undoVis();
     }
 
     public void updateUI()
@@ -192,7 +182,7 @@ public class dragManager : MonoBehaviour
 
             if (selectedEngine != null)
             {
-                WorldObjectInteract eI = selectedEngine.GetComponent<WorldObjectInteract>();
+                Engine eI = selectedEngine.GetComponent<Engine>();
                 if(eI!=null) {
                     removeUnitButton.SetActive(true);
                 }
@@ -200,30 +190,29 @@ public class dragManager : MonoBehaviour
                 {
                     removeUnitButton.SetActive(false);
                 }
-                Material mat1 = eI.visRenderer.material;
-                Material mat2 = selectedEngineInteriorMaterial;
-
-                if (mat1.color == mat2.color)
+                
+                if (eI.commandType == CommandType.None)
                 {
                     selectedEnginesButtons[0].SetActive(true);
                     selectedEnginesButtons[1].SetActive(true);
                     selectedEnginesButtons[2].SetActive(true);
                 }
-                else if (mat1.color == engineInteriorCommanderMaterial.color)
+                else if (eI.commandType == CommandType.Incident)
                 {
                     selectedEnginesButtons[4].SetActive(true);
                     selectedEnginesButtons[6].SetActive(true);
                 }
-                else if (mat1.color == engineSafetyOfficerMaterial.color)
+                else if (eI.commandType == CommandType.Safety)
                 {
                     selectedEnginesButtons[5].SetActive(true);
                     selectedEnginesButtons[6].SetActive(true);
                 }
-                else if (mat1.color != mat2.color && mat1.color != engineInteriorMaterial.color)
+                else if (eI.commandType == CommandType.Area)
                 {
                     selectedEnginesButtons[3].SetActive(true);
                     selectedEnginesButtons[6].SetActive(true);
                 }
+                
             }
             else
             {
@@ -247,94 +236,82 @@ public class dragManager : MonoBehaviour
     }
     
     
+    
+    public void SetCommanderArea() => SetSelectedCommander(CommandType.Area);
+    public void ResetCommand() => SetSelectedCommander(CommandType.None);
+    public void SetSafetyOfficer() => SetSelectedCommander(CommandType.Safety);
+    public void SetIncidentCommander() => SetSelectedCommander(CommandType.Incident);
+    
+    
+    
     public void clearCommand()
     {
-        WorldObjectInteract s = selectedEngine.GetComponent<WorldObjectInteract>();
-
+        Engine s = selectedEngine.GetComponent<Engine>();
         s.ClearCommandStatus();
-        
-        
-    }
-
-    public void setCommander()
-    {
-        WorldObjectInteract s = selectedEngine.GetComponent<WorldObjectInteract>();
-
-        if (s.eH.currentCommander != null)
-        {
-            WorldObjectInteract eI = s.eH.currentCommander.GetComponent<WorldObjectInteract>();
-            eI.baseMat = engineInteriorMaterial;
-            eI.selectedMat = selectedEngineInteriorMaterial;
-            eI.visRenderer.material = eI.baseMat;
-            cI.addInfo($"{eSO.engineNames[eI.SOindex]} is no longer commanding {s.currentArea}");
-            int cIndex = cI.activeEngines.IndexOf(eI.SOindex);
-            cI.engineCommanderInfo[cIndex] = null;
-        }
-        
-        int cIndex2 = cI.activeEngines.IndexOf(s.SOindex);
-        cI.engineCommanderInfo[cIndex2] = "Area";
-        cI.addInfo($"{eSO.engineNames[s.SOindex]} was named {s.currentArea} Commander");
-        s.eH.currentCommander = selectedEngine;
-        s.eH.insideOutsideVis[0].material = s.eH.insideOutsideMaterials[2];
-        s.baseMat = s.eH.insideOutsideMaterials[2];
-        s.selectedMat = s.eH.insideOutsideMaterials[2];
-        s.visRenderer.material = s.eH.insideOutsideMaterials[2];
         updateUI();
-        
-        
     }
-    public void setInteriorCommander()
+    
+    public void SetSelectedCommander(CommandType type)
     {
-        if (interiorCommander != null)
+        if(type == CommandType.None) return;
+        if (type == CommandType.Area)
         {
-            WorldObjectInteract eI = interiorCommander.GetComponent<WorldObjectInteract>();
-            eI.baseMat = engineInteriorMaterial;
-            eI.selectedMat = selectedEngineInteriorMaterial;
-            eI.visRenderer.material = eI.baseMat;
-            cI.addInfo($"{eSO.engineNames[eI.SOindex]} is no longer Incident Commander");
-            int cIndex = cI.activeEngines.IndexOf(eI.SOindex);
-            cI.engineCommanderInfo[cIndex] = null;
-            interiorCommander = null;
+            Engine s = selectedEngine.GetComponent<Engine>();
+            ReplaceCommand(selectedEngine.GetComponent<Engine>(), CommandType.Area);
+            s.eH.SetCommander(selectedEngine);
+        }
+        else
+        {
+            ReplaceCommand(selectedEngine.GetComponent<Engine>(), type);
         }
         
-
-        WorldObjectInteract s = selectedEngine.GetComponent<WorldObjectInteract>();
-        int cIndex2 = cI.activeEngines.IndexOf(s.SOindex);
-        cI.engineCommanderInfo[cIndex2] = "Incident";
-        cI.addInfo($"{eSO.engineNames[s.SOindex]} was named Incident Commander");
-        s.baseMat = engineInteriorCommanderMaterial;
-        s.selectedMat = engineInteriorCommanderMaterial;
-        s.visRenderer.material = engineInteriorCommanderMaterial;
-        interiorCommander = selectedEngine;
         updateUI();
         
     }
-    public void setSafetyOfficer()
-    {
-        if (safetyOfficer != null)
-        {
-            WorldObjectInteract eI = safetyOfficer.GetComponent<WorldObjectInteract>();
-            eI.baseMat = engineInteriorMaterial;
-            eI.selectedMat = selectedEngineInteriorMaterial;
-            eI.visRenderer.material = engineInteriorMaterial;
-            
-            cI.addInfo($"{eSO.engineNames[eI.SOindex]} is no longer Safety Chief Officer");
-            int cIndex = cI.activeEngines.IndexOf(eI.SOindex);
-            cI.engineCommanderInfo[cIndex] = null;
-            safetyOfficer = null;
-        }
 
-        WorldObjectInteract s = selectedEngine.GetComponent<WorldObjectInteract>();
-        int cIndex2 = cI.activeEngines.IndexOf(s.SOindex);
-        cI.engineCommanderInfo[cIndex2] = "Safety";
-        cI.addInfo($"{eSO.engineNames[s.SOindex]} was named Safety Chief Officer");
-        s.baseMat = engineSafetyOfficerMaterial;
-        s.selectedMat = engineSafetyOfficerMaterial;
-        s.visRenderer.material = engineSafetyOfficerMaterial;
-        
-        
-        safetyOfficer = selectedEngine;
-        updateUI();
-        
+    public void ReplaceCommand(Engine commander, CommandType type, bool hideLog = false)
+    {
+
+        int newIncidentIndex = -1;
+        if(commander) newIncidentIndex = cI.activeEngines.IndexOf(commander.SOindex);
+        int oldIncidentIndex = newIncidentIndex;
+        if (type == CommandType.Area)
+        {
+            commander.SetCommand(type);
+            return;
+        }
+        for (int i = 0; i < commanders.Length; i++)
+        {
+            if (commanders[i].type == type)
+            {
+                if (commanders[i].commander) oldIncidentIndex = cI.activeEngines.IndexOf(commanders[i].commander.SOindex);
+                if (commanders[i].commander && commanders[i].commander != commander)
+                {
+                    commanders[i].commander.ClearCommandStatus();
+                    cI.engineCommanderInfo[oldIncidentIndex] = CommandType.None;
+                    if (!hideLog)
+                    {
+                        if (commanders[i].type == CommandType.Area) cI.addInfo($"{eSO.engineNames[commanders[i].commander.SOindex]} is no longer commanding {commanders[i].commander.currentArea}");
+                        else cI.addInfo($"{eSO.engineNames[commanders[i].commander.SOindex]} is no longer {eSO.GetCommandingTitle(commanders[i].type)}");
+                    }
+                   
+                }
+                commanders[i].commander = commander;
+                if(commander)cI.engineCommanderInfo[newIncidentIndex] = type;
+                if (!hideLog && commander != null)
+                {
+                    if (type == CommandType.Area) cI.addInfo($"{eSO.engineNames[commander.SOindex]} is now commanding {commander.currentArea}");
+                    else cI.addInfo($"{eSO.engineNames[commander.SOindex]} is now {eSO.GetCommandingTitle(type)}");
+                }
+                commander.SetCommand(type);
+            }
+        }
     }
+}
+
+[System.Serializable]
+public class CommanderData
+{
+    public CommandType type;
+    public Engine commander;
 }
