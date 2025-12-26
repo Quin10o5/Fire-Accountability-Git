@@ -146,8 +146,7 @@ public class engineHolder : MonoBehaviour
 
         currentCommander = commander;
         timeManager t = timeManager.instance;
-        t.currentIncident.addInfo(
-            $"{settings.engineNames[currentCommander.GetComponent<Engine>().SOindex]} is now commanding {areaName}");
+        t.currentIncident.addInfo($"{settings.engineNames[currentCommander.GetComponent<Engine>().SOindex]} is now commanding {areaName}");
         SetOutline(commandedColor);
         
     }

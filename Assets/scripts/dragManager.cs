@@ -16,6 +16,7 @@ public class dragManager : MonoBehaviour
     [Header("Engine Spawning")]
     public int[] activeEngines;
     public enginesSO eSO;
+    public SettingsSO settings;
     public Transform dragDropParent;
     public GameObject enginePrefab; // Assigned in inspector
     public GameObject uiPrefab;     // Assigned in inspector 
@@ -25,12 +26,13 @@ public class dragManager : MonoBehaviour
     [Header("Commanders")]
     public CommanderData[] commanders;
     public float yOffset = 0.5f;    // Not used in this example, but you can adjust as needed.
-    public delegate void simpleEvent();
+    public TMP_Dropdown commanderDropdown;
     public event Action undoVis ;
     [Header("Time Manager")]
     public timeManager tM;
 
     public currentIncident cI;
+    
 
     void Awake()
     {
@@ -174,49 +176,30 @@ public class dragManager : MonoBehaviour
 
     public void updateUI()
     {
-       
-            foreach (GameObject engine in selectedEnginesButtons)
-            {
-                engine.SetActive(false);
-            }
+        
+            
 
             if (selectedEngine != null)
             {
+                if(!commanderDropdown.transform.parent.gameObject.activeInHierarchy) commanderDropdown.transform.parent.gameObject.SetActive(true);
                 Engine eI = selectedEngine.GetComponent<Engine>();
                 if(eI!=null) {
                     removeUnitButton.SetActive(true);
                 }
-                else
+                else 
                 {
                     removeUnitButton.SetActive(false);
                 }
-                
-                if (eI.commandType == CommandType.None)
-                {
-                    selectedEnginesButtons[0].SetActive(true);
-                    selectedEnginesButtons[1].SetActive(true);
-                    selectedEnginesButtons[2].SetActive(true);
-                }
-                else if (eI.commandType == CommandType.Incident)
-                {
-                    selectedEnginesButtons[4].SetActive(true);
-                    selectedEnginesButtons[6].SetActive(true);
-                }
-                else if (eI.commandType == CommandType.Safety)
-                {
-                    selectedEnginesButtons[5].SetActive(true);
-                    selectedEnginesButtons[6].SetActive(true);
-                }
-                else if (eI.commandType == CommandType.Area)
-                {
-                    selectedEnginesButtons[3].SetActive(true);
-                    selectedEnginesButtons[6].SetActive(true);
-                }
-                
+                Debug.Log($"Getting value for {eI.commandType} - {GetCommandIndex(eI.commandType)} - {GetCommandType(GetCommandIndex(eI.commandType))}");
+                commanderDropdown.value = GetCommandIndex(eI.commandType);
+
             }
             else
             {
                 removeUnitButton.SetActive(false);
+
+                if (commanderDropdown.transform.parent.gameObject.activeInHierarchy)
+                    commanderDropdown.transform.parent.gameObject.SetActive(false);
             }
             
             
@@ -247,6 +230,7 @@ public class dragManager : MonoBehaviour
     public void clearCommand()
     {
         Engine s = selectedEngine.GetComponent<Engine>();
+        if(s.commandType != CommandType.None) cI.addInfo($"{eSO.engineNames[s.SOindex]} is no longer {settings.GetCommandingTitle(s.commandType)}");
         s.ClearCommandStatus();
         updateUI();
     }
@@ -258,14 +242,13 @@ public class dragManager : MonoBehaviour
         {
             Engine s = selectedEngine.GetComponent<Engine>();
             ReplaceCommand(selectedEngine.GetComponent<Engine>(), CommandType.Area);
-            s.eH.SetCommander(selectedEngine);
+            //s.eH.SetCommander(selectedEngine);
         }
         else
         {
             ReplaceCommand(selectedEngine.GetComponent<Engine>(), type);
         }
         
-        updateUI();
         
     }
 
@@ -278,11 +261,13 @@ public class dragManager : MonoBehaviour
         if (type == CommandType.Area)
         {
             commander.SetCommand(type);
+            updateUI();
             return;
         }
+        List<CommandType> replacableCommands = new List<CommandType>() { CommandType.Incident, CommandType.Safety, CommandType.Supervisor,  };
         for (int i = 0; i < commanders.Length; i++)
         {
-            if (commanders[i].type == type)
+            if (commanders[i].type == type && replacableCommands.Contains(type))
             {
                 if (commanders[i].commander) oldIncidentIndex = cI.activeEngines.IndexOf(commanders[i].commander.SOindex);
                 if (commanders[i].commander && commanders[i].commander != commander)
@@ -292,22 +277,142 @@ public class dragManager : MonoBehaviour
                     if (!hideLog)
                     {
                         if (commanders[i].type == CommandType.Area) cI.addInfo($"{eSO.engineNames[commanders[i].commander.SOindex]} is no longer commanding {commanders[i].commander.currentArea}");
-                        else cI.addInfo($"{eSO.engineNames[commanders[i].commander.SOindex]} is no longer {eSO.GetCommandingTitle(commanders[i].type)}");
+                        else cI.addInfo($"{eSO.engineNames[commanders[i].commander.SOindex]} is no longer {settings.GetCommandingTitle(commanders[i].type)}");
                     }
                    
                 }
                 commanders[i].commander = commander;
-                if(commander)cI.engineCommanderInfo[newIncidentIndex] = type;
-                if (!hideLog && commander != null)
-                {
-                    if (type == CommandType.Area) cI.addInfo($"{eSO.engineNames[commander.SOindex]} is now commanding {commander.currentArea}");
-                    else cI.addInfo($"{eSO.engineNames[commander.SOindex]} is now {eSO.GetCommandingTitle(type)}");
-                }
-                commander.SetCommand(type);
+                
             }
+        }
+        if(commander)cI.engineCommanderInfo[newIncidentIndex] = type;
+        if (!hideLog && commander != null)
+        {
+            cI.addInfo($"{eSO.engineNames[commander.SOindex]} is now {settings.GetCommandingTitle(type)}");
+        }
+        if(commander.commandType != CommandType.None) commander.ClearCommandStatus();
+        commander.SetCommand(type);
+        updateUI();
+        
+    }
+
+    public void SetCommand()
+    {
+        int commandIndex = commanderDropdown.value;
+        if(commandIndex == GetCommandIndex(selectedEngine.GetComponent<Engine>().commandType)) return;
+        switch (commandIndex)
+        {
+            case 0:
+                clearCommand();
+                break;
+            case 1:
+                SetSelectedCommander(CommandType.Area);
+                Debug.Log($"Setting command type {CommandType.Area}");
+                break;
+            case 2:
+                SetSelectedCommander(CommandType.Incident);
+                Debug.Log($"Setting command type {CommandType.Incident}");
+                break;
+            case 3:
+                SetSelectedCommander(CommandType.Safety);
+                Debug.Log($"Setting command type {CommandType.Safety}");
+                break;
+            case 4:
+                SetSelectedCommander(CommandType.Search);
+                Debug.Log($"Setting command type {CommandType.Search}");
+                break;
+            case 5:
+                SetSelectedCommander(CommandType.Fire);
+                Debug.Log($"Setting command type {CommandType.Fire}");
+                break;
+            case 6:
+                SetSelectedCommander(CommandType.RIT);
+                Debug.Log($"Setting command type {CommandType.RIT}");
+                break;
+            case 7:
+                SetSelectedCommander(CommandType.Vent);
+                Debug.Log($"Setting command type {CommandType.Vent}");
+                break;
+            default:
+                SetSelectedCommander(CommandType.Supervisor);
+                Debug.Log($"Setting command type {CommandType.Supervisor}");
+                break;
+        }
+    }
+
+    public CommandType GetCommandType(int index)
+    {
+        switch (index)
+        {
+            case 0:
+                Debug.Log($"Getting command type {CommandType.None}");
+                return (CommandType.None);
+                Debug.Log($"Getting command type {CommandType.None}");
+                break;
+            case 1:
+                Debug.Log($"Getting command type {CommandType.Area}");
+                return (CommandType.Area);
+                break;
+            case 2:
+                Debug.Log($"Getting command type {CommandType.Incident}");
+                return (CommandType.Incident);
+                break;
+            case 3:
+                Debug.Log($"Getting command type {CommandType.Safety}");
+                return (CommandType.Safety);
+                break;
+            case 4:
+                Debug.Log($"Getting command type {CommandType.Search}");
+                return (CommandType.Search);
+                break;
+            case 5:
+                Debug.Log($"Getting command type {CommandType.Fire}");
+                return (CommandType.Fire);
+                break;
+            case 6:
+                Debug.Log($"Getting command type {CommandType.RIT}");
+                return (CommandType.RIT);
+                break;
+            case 7:
+                Debug.Log($"Getting command type {CommandType.Vent}");
+                return (CommandType.Vent);
+                break;
+            default:
+                Debug.Log($"Getting command type {CommandType.Supervisor}");
+                return (CommandType.Supervisor);
+        }
+    }
+
+    public int GetCommandIndex(CommandType commandType)
+    {
+        switch (commandType)
+        {
+            case CommandType.None:
+                return 0;
+            case CommandType.Area:
+                return 1;
+            case CommandType.Incident:
+                return 2;
+            case CommandType.Safety:
+                return 3;
+            case CommandType.Search:
+                return 4;
+            case CommandType.Fire:
+                return 5;
+            case CommandType.RIT:
+                return 6;
+            case CommandType.Vent:
+                return 7;
+            case CommandType.Supervisor:
+                return 8;
+            default:
+                return 0;
         }
     }
 }
+
+
+
 
 [System.Serializable]
 public class CommanderData

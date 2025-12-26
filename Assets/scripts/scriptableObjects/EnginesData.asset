@@ -12,17 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94492fa1d121d5242b8f778e1b1628ec, type: 3}
   m_Name: EnginesData
   m_EditorClassIdentifier: 
-  commands:
-  - type: 1
-    title: Safety Officer
-    color: {r: 0, g: 0.7202115, b: 1, a: 1}
-  - type: 2
-    title: Incident Commander
-    color: {r: 0.9862414, g: 0.24056602, b: 1, a: 1}
-  - type: 3
-    title: Area Commander
-    color: {r: 1, g: 0.49574798, b: 0, a: 1}
-  selectedColor: {r: 1, g: 1, b: 1, a: 1}
   engineNames:
   - Sample 1
   - Sample 2
@@ -30,14 +19,6 @@ MonoBehaviour:
   - Sample 4
   - Sample 5
   enginePersonel: 0400000006000000050000000700000008000000
-  cyclingButtonColors:
-  - {r: 1, g: 1, b: 1, a: 1}
-  - {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
-  - {r: 1, g: 0, b: 0, a: 1}
-  engineWarningColors:
-  - {r: 1, g: 1, b: 1, a: 1}
-  - {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
-  - {r: 1, g: 0, b: 0, a: 1}
   engineWarningTime: 10
   engineSevereWarningTime: 15
   cycleWarningTime: 1

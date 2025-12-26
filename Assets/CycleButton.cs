@@ -11,7 +11,8 @@ public class CycleButton : MonoBehaviour
     public TMP_Text titleText;
     public TMP_Text cycleText;
     public int index = 0;
-    [FormerlySerializedAs("engines")] public enginesSO settings;
+     public SettingsSO settings;
+    [FormerlySerializedAs("engines")] public enginesSO customSettings;
     private float startTime;
     private bool buttonPressed = false;
     private Button button;
@@ -32,11 +33,11 @@ public class CycleButton : MonoBehaviour
     {
         if (buttonPressed) return;
         int time = Mathf.RoundToInt(Time.time - startTime);
-        if (time > settings.cycleSevereWarningTime * 60)
+        if (time > customSettings.cycleSevereWarningTime * 60)
         {
             image.color = settings.cyclingButtonColors[(time % 2) + 1];
         }
-        else if (time > settings.cycleWarningTime * 60)
+        else if (time > customSettings.cycleWarningTime * 60)
         {
             image.color = settings.cyclingButtonColors[1];
         }

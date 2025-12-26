@@ -69,7 +69,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a9e5e30255661a4fba056fa48f6f6de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  settings: {fileID: 11400000, guid: 08b3a241dcc8c734881f3143fafb0da0, type: 2}
+  settings: {fileID: 11400000, guid: 0d371607346e72a4a94d3ad9908733f7, type: 2}
+  customSettings: {fileID: 11400000, guid: 08b3a241dcc8c734881f3143fafb0da0, type: 2}
   company: 0
   eH: {fileID: 0}
   enginesSo: {fileID: 11400000, guid: 08b3a241dcc8c734881f3143fafb0da0, type: 2}
@@ -92,6 +93,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09f97424e0eb33746bd1c061a7d7ef3b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  customSettings: {fileID: 11400000, guid: 08b3a241dcc8c734881f3143fafb0da0, type: 2}
   warningTimeMinutes: 15
   alertTimeMinutes: 20
   incidentIndex: 0

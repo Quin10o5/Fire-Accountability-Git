@@ -7,7 +7,8 @@ using TMPro;
 
 public class colorTimer : MonoBehaviour
 {
-    public int warningTimeMinutes;
+    public enginesSO customSettings;
+    public int warningTimeMinutes; 
     public int alertTimeMinutes;
     public int incidentIndex;
     private Engine wOI;
@@ -48,8 +49,8 @@ public class colorTimer : MonoBehaviour
         wOI = GetComponent<Engine>();
         cI = timeManager.instance.currentIncident;
         incidentIndex = wOI.SOindex;
-        warningTimeMinutes = PlayerPrefs.GetInt("warningTimeMinutes", 10);
-        alertTimeMinutes = PlayerPrefs.GetInt("alertTimeMinutes", 15);
+        warningTimeMinutes = customSettings.engineWarningTime;
+        alertTimeMinutes = customSettings.engineSevereWarningTime;
         setTime();
     }
     

@@ -7,7 +7,8 @@ using Unity.VisualScripting;
 
 public class Engine : MonoBehaviour, IPointerDownHandler, IDragHandler, IPointerUpHandler
 {
-    public enginesSO settings;
+    public SettingsSO settings;
+    public enginesSO customSettings;
     private bool isDragging = false;
     public int company;
     public engineHolder eH;
@@ -27,6 +28,7 @@ public class Engine : MonoBehaviour, IPointerDownHandler, IDragHandler, IPointer
     public CommandType commandType;
     private Material lastSelectedMaterial;
     private dragManager dragManager;
+    private bool performedPersonalHandling = false;
     private void Start()
     {
         // Define the plane at the object's starting position, facing the camera
@@ -49,9 +51,8 @@ public class Engine : MonoBehaviour, IPointerDownHandler, IDragHandler, IPointer
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        eH.RemoveEngine(this);
-        eH.companyNum -= company;
-        eH.updateCompanyVis();
+        performedPersonalHandling = false;
+        
         dragPlane = new Plane(-Camera.main.transform.forward, transform.position);
         lookPoint = Camera.main.transform.position;
         isDragging = true;
@@ -80,6 +81,13 @@ public class Engine : MonoBehaviour, IPointerDownHandler, IDragHandler, IPointer
     public void OnDrag(PointerEventData eventData)
     {
         if (!isDragging) return;
+        if (!performedPersonalHandling)
+        {
+            eH.RemoveEngine(this);
+            eH.companyNum -= company;
+            eH.updateCompanyVis();
+            performedPersonalHandling = true;
+        }
         //dragPlane = new Plane(-Camera.main.transform.forward, transform.position);
         Ray ray = Camera.main.ScreenPointToRay(eventData.position);
         if (dragPlane.Raycast(ray, out float enter))
@@ -173,19 +181,30 @@ public class Engine : MonoBehaviour, IPointerDownHandler, IDragHandler, IPointer
                 ClearCommandStatus();
                 eH.ClearCommander();
                 dragManager.updateUI();
-                dragManager.cI.addInfo($"{settings.engineNames[SOindex]} moved from {eH.areaName} to {eH2.areaName}");
+                dragManager.cI.addInfo($"{customSettings.engineNames[SOindex]} moved from {eH.areaName} to {eH2.areaName}");
             }
             if (eH2 != null && !eH2.full)
             {
-                eH2.companyNum += company;
-                transform.position = hit.point;
-                eH2.placeEngine(this.gameObject);
+                if (performedPersonalHandling)
+                {
+                    eH2.companyNum += company;
+                    transform.position = hit.point;
+                    eH2.placeEngine(this.gameObject);
+                    
+                    if(eH != eH2)dragManager.cI.addInfo($"{customSettings.engineNames[SOindex]} moved from {eH.areaName} to {eH2.areaName}");
+                }
+                
                 eH = eH2;
+                
             }
             else
             {
-                eH.companyNum += company;
-                eH.placeEngine(this.gameObject);
+                if (performedPersonalHandling)
+                {
+                    eH.companyNum += company;
+                    eH.placeEngine(this.gameObject);
+                }
+
                 eH = eH2;
                 dragManager d = dragManager;
                 d.selectedEngineIndex = SOindex;
@@ -203,8 +222,12 @@ public class Engine : MonoBehaviour, IPointerDownHandler, IDragHandler, IPointer
             d.selectedEngineIndex = SOindex;
             d.selectedEngine = this.gameObject;
             d.updateUI();
-            eH.placeEngine(this.gameObject);
-            eH.companyNum += company;
+            if (performedPersonalHandling)
+            {
+                eH.placeEngine(this.gameObject);
+                eH.companyNum += company;
+            }
+            
             // Optionally reset position or take another action
         }
         eH.updateCompanyVis();

@@ -10,6 +10,7 @@ using UnityEngine.SceneManagement;
 public class timeManager : MonoBehaviour
 {
     public currentIncident currentIncident;
+    public SettingsSO settings;
     public enginesSO eSO;
     public float startingTime;
     public TMP_Text timeText;
@@ -103,7 +104,7 @@ public class timeManager : MonoBehaviour
 
         for (int i = 0; i < d.commanders.Length; i++)
         {
-            concatInfo += $"Ending {eSO.GetCommandingTitle(d.commanders[i].type)}:   {eSO.engineNames[d.commanders[i].commander.SOindex]}\n";
+            concatInfo += $"Ending {settings.GetCommandingTitle(d.commanders[i].type)}:   {eSO.engineNames[d.commanders[i].commander.SOindex]}\n";
         }
         TimeSpan elapsed = DateTime.Now - startTime;
 

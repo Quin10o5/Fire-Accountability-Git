@@ -434,7 +434,7 @@ MonoBehaviour:
   insideOutsideVis:
   - {fileID: 1600125862148700966}
   - {fileID: 6487270076091209184}
-  commandedColor: {r: 0.8679245, g: 0.59245557, b: 0.18422928, a: 1}
+  commandedColor: {r: 1, g: 0.6627451, b: 0.34509805, a: 1}
   searchCompletion: 0
   visUpdateTime: 1.5
   companyNum: 0
