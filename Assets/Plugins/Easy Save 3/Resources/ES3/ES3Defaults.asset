@@ -34,6 +34,8 @@ MonoBehaviour:
     - Assembly-CSharp-firstpass
     - Cinemachine
     - NativeShare.Runtime
+    - NaughtyAttributes.Core
+    - NaughtyAttributes.Test
     showAdvancedSettings: 0
   addMgrToSceneAutomatically: 0
   autoUpdateReferences: 1

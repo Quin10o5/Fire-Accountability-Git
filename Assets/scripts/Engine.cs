@@ -3,38 +3,48 @@ using UnityEngine.EventSystems;
 using TMPro;
 using UnityEngine.Serialization;
 using System.Reflection;
+using NaughtyAttributes;
 using Unity.VisualScripting;
 
 public class Engine : MonoBehaviour, IPointerDownHandler, IDragHandler, IPointerUpHandler
 {
+    [Header("Scriptable Objects")]
     public SettingsSO settings;
     public enginesSO customSettings;
-    private bool isDragging = false;
-    public int company;
-    public engineHolder eH;
-    private Vector3 offset = new Vector3(0, .4f, 0);
-    private Plane dragPlane;
-    private GameObject enginePrefab;
-    private MeshRenderer lastSelected;
-    private Color lastSelectedColor;
-    private Vector3 lookPoint;
-    [FormerlySerializedAs("settingsSo")] [FormerlySerializedAs("enginesSO")] public enginesSO enginesSo;
-    public int SOindex;
-    public int index;
-    public Color selectedColor;
+    
+    [Header("References")]
     public Color baseColor;
-    public string currentArea;
     public Outline outline;
-    public CommandType commandType;
+    public TMP_Text nameText;
+    
+    [Header("Runtime")]
+    [ReadOnly]public bool isDragging = false;
+    [ReadOnly]public engineHolder eH;
+    
+    [Header("Incident Runtime")]
+    [ReadOnly]public int SOindex;
+    [ReadOnly]public int company;
+    [ReadOnly]public int index;
+    [ReadOnly]public string currentArea;
+    [ReadOnly]public CommandType commandType;
+    
+    //private
     private Material lastSelectedMaterial;
     private dragManager dragManager;
     private bool performedPersonalHandling = false;
+    private Vector3 offset = new Vector3(0, .4f, 0);
+    private Plane dragPlane;
+    private MeshRenderer lastSelected;
+    private Color lastSelectedColor;
+    private Vector3 lookPoint;
+    
+    
+    
     private void Start()
     {
         // Define the plane at the object's starting position, facing the camera
         //dragPlane = new Plane(-Camera.main.transform.forward, transform.position);
         dragManager = dragManager.instance;
-        enginePrefab = dragManager.enginePrefab;
 
     }
 
@@ -116,7 +126,7 @@ public class Engine : MonoBehaviour, IPointerDownHandler, IDragHandler, IPointer
             engineHolder eH3 = hit.collider.gameObject.GetComponent<engineHolder>();
             if (eH3 != null)
             {
-                MeshRenderer mr = hit.collider.gameObject.GetComponent<MeshRenderer>();
+                MeshRenderer mr = hit.collider.gameObject.GetComponent<engineHolder>().selectionRenderer;
                 if (mr != null && mr != lastSelected)
                 {
                     // Restore previous selection if any
@@ -243,6 +253,7 @@ public class Engine : MonoBehaviour, IPointerDownHandler, IDragHandler, IPointer
         commandType = CommandType.None;
         ClearOutline();
         if(dragManager.selectedEngine == this.gameObject)SetOutline(Color.white);
+        UpdateName();
         
         
     }
@@ -260,6 +271,8 @@ public class Engine : MonoBehaviour, IPointerDownHandler, IDragHandler, IPointer
         }
         if(commandType == CommandType.None) ClearCommandStatus();
         else SetOutline(settings.GetCommandingColor(command));
+        
+        UpdateName();
     }
 
     public void SetOutline(Color outlineColor) 
@@ -284,6 +297,22 @@ public class Engine : MonoBehaviour, IPointerDownHandler, IDragHandler, IPointer
     public void ReturnToUI()
     {
         dragManager.ReturnEngineToUI(this);
+    }
+
+    public void UpdateName()
+    {
+        string baseName = customSettings.engineNames[SOindex];
+        string append = "";
+        if (commandType != CommandType.None)
+        {
+            append = settings.GetCommandingAcronym(commandType);
+            nameText.text = append + "-" + baseName ;
+        }
+        else
+        {
+            nameText.text = baseName;
+        }
+        
     }
 
 

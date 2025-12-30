@@ -55,13 +55,13 @@ public class DraggableSearch : MonoBehaviour, IPointerDownHandler, IDragHandler,
         {
             if (hit.collider.gameObject.GetComponent<engineHolder>() != null)
             {
-                if (lastSelected != hit.collider.gameObject.GetComponent<MeshRenderer>())
+                if (lastSelected != hit.collider.gameObject.GetComponent<engineHolder>().selectionRenderer)
                 {
                     if (lastSelected != null)
                     {
                         lastSelected.material = lastSelectedMaterial;
                     }
-                    lastSelected = hit.collider.gameObject.GetComponent<MeshRenderer>();
+                    lastSelected = hit.collider.gameObject.GetComponent<engineHolder>().selectionRenderer;
                     lastSelectedMaterial = lastSelected.material;
                 }
                 lastSelected.material = dragManager.instance.hoverMaterial;

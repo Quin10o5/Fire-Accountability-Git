@@ -71,15 +71,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   settings: {fileID: 11400000, guid: 0d371607346e72a4a94d3ad9908733f7, type: 2}
   customSettings: {fileID: 11400000, guid: 08b3a241dcc8c734881f3143fafb0da0, type: 2}
-  company: 0
-  eH: {fileID: 0}
-  enginesSo: {fileID: 11400000, guid: 08b3a241dcc8c734881f3143fafb0da0, type: 2}
-  SOindex: 0
-  index: 0
-  selectedColor: {r: 0, g: 0, b: 0, a: 0}
   baseColor: {r: 0, g: 0, b: 0, a: 0}
-  currentArea: 
   outline: {fileID: 6729640233524773375}
+  nameText: {fileID: 1327376950756394433}
+  isDragging: 0
+  eH: {fileID: 0}
+  SOindex: 0
+  company: 0
+  index: 0
+  currentArea: 
   commandType: 0
 --- !u!114 &8718948577931285520
 MonoBehaviour:

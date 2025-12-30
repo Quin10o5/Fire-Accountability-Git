@@ -66,13 +66,13 @@ public class DraggableUI : MonoBehaviour, IPointerDownHandler, IDragHandler, IPo
         {
             if (hit.collider.gameObject.GetComponent<engineHolder>() != null)
             {
-                if (lastSelected != hit.collider.gameObject.GetComponent<MeshRenderer>())
+                if (lastSelected != hit.collider.gameObject.GetComponent<engineHolder>().selectionRenderer)
                 {
                     if (lastSelected != null)
                     {
                         lastSelected.material = lastSelectedMaterial;
                     }
-                    lastSelected = hit.collider.gameObject.GetComponent<MeshRenderer>();
+                    lastSelected = hit.collider.gameObject.GetComponent<engineHolder>().selectionRenderer;
                     lastSelectedMaterial = lastSelected.material;
                 }
                 lastSelected.material = dragManager.instance.hoverMaterial;
@@ -126,12 +126,11 @@ public class DraggableUI : MonoBehaviour, IPointerDownHandler, IDragHandler, IPo
                     eH.placeEngine(e);
                     Engine eI = e.GetComponent<Engine>();
                     eI.eH = eH;
-                    eI.enginesSo = enginesSo;
                     eI.SOindex = SOindex;
                     eI.company = company;
                     eI.currentArea = eH.areaName;
                     dragManager d = dragManager.instance;
-                    e.GetComponentInChildren<TMP_Text>().text = enginesSo.engineNames[SOindex];
+                    eI.nameText.text = enginesSo.engineNames[SOindex];
                     currentIncident cI = d.tM.currentIncident;
                     int incidentIndex = cI.activeEngines.IndexOf(SOindex);
                     cI.addInfo($"{enginesSo.engineNames[SOindex]} with {enginesSo.enginePersonel[SOindex]} personnel arrived at scene");

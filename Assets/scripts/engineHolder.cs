@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class engineHolder : MonoBehaviour
 {
@@ -17,10 +18,10 @@ public class engineHolder : MonoBehaviour
     [Range(0.5f,2)] 
     public float sizeMultiplier = 1f;
     public Transform[] holderPositions;
-    public GameObject[] holders;
+     public GameObject[] heldEngines;
     
     [Header("Selection and Search Visualization")]
-    public MeshRenderer[] insideOutsideVis;
+    public MeshRenderer selectionRenderer;
 
 
     public Color commandedColor;
@@ -39,29 +40,29 @@ public class engineHolder : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        outline = GetComponent<Outline>();
         if (areaText == null) return;
         areaText.text = areaName;
-    }
+        heldEngines = new GameObject[holderPositions.Length];
+}
 
     // Update is called once per frame
     // C#
     public void placeEngine(GameObject engine)
     {
-        if (holders == null || holderPositions == null) return; // Handle null issues
+        if (heldEngines == null || holderPositions == null) return; // Handle null issues
         updateCompanyVis();
         // Ensure arrays are consistent in size
-        if (holders.Length != holderPositions.Length)
+        if (heldEngines.Length != holderPositions.Length)
         {
             Debug.LogError("Mismatch between holders and holderPositions lengths.");
             return;
         }
 
-        for (int i = 0; i < holders.Length; i++)
+        for (int i = 0; i < heldEngines.Length; i++)
         {
-            if (holders[i] == null)
+            if (heldEngines[i] == null)
             {
-                holders[i] = engine;
+                heldEngines[i] = engine;
                 engine.transform.position = holderPositions[i].position;
                 engine.transform.rotation = holderPositions[i].rotation;
                 engine.transform.localScale = new Vector3( sizeMultiplier, sizeMultiplier, sizeMultiplier);
@@ -71,7 +72,7 @@ public class engineHolder : MonoBehaviour
                 return;
             }
             
-            if (i == holders.Length - 2)
+            if (i == heldEngines.Length - 2)
             {
                 full = true;
             }
@@ -84,7 +85,7 @@ public class engineHolder : MonoBehaviour
 
     public void RemoveEngine(Engine engine)
     {
-        holders[engine.index] = null;
+        heldEngines[engine.index] = null;
     }
 
 
@@ -133,7 +134,7 @@ public class engineHolder : MonoBehaviour
         {
             float u = (Time.time - startTime) / visUpdateTime;
             trueSearchCompletion = Mathf.Lerp(trueSearchCompletion, searchCompletion, u);
-            insideOutsideVis[1].material.SetFloat(outlineColorID, (float)trueSearchCompletion);
+            selectionRenderer.material.SetFloat(outlineColorID, (float)trueSearchCompletion);
             yield return null;
         }
         
