@@ -36,7 +36,7 @@ public class colorTimer : MonoBehaviour
         }
         else
         {
-            Debug.Log($"Parsed engine start time: {startTime}");
+            //Debug.Log($"Parsed engine start time: {startTime}");
         }
         
         

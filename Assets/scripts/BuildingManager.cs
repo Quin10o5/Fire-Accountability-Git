@@ -1,26 +1,25 @@
 using System.Collections.Generic;
+using NaughtyAttributes;
 using UnityEngine;
 
 public class BuildingManager : MonoBehaviour
 {
-    [Header("Degugging")]
-    public bool testing = false;
+    [Header("Degugging")] public bool testing = false;
     public bool verbose = false;
     public int testingFloorNum = 2;
-    
-    [Header("Building Prefabs")] 
-    public GameObject floorPrefab;
+
+    [Header("Building Prefabs")] public GameObject floorPrefab;
     public GameObject atticPrefab;
     public GameObject roofPrefab;
 
-    [Header("Settings")] 
+    [Header("Settings")] public currentIncident incident;
     public Transform spawnPoint;
     public int floorNum = -1;
     public float yOffset = 0.02f;
     public float extraOffset = 0.03f;
-    
+
     [Header("Runtime")]
-    public List<engineHolder> buildingHolders = new List<engineHolder>();
+    [ReadOnly] public List<engineHolder> buildingHolders = new List<engineHolder>();
     // private
     private float startY;
     private float floorAddY;
@@ -29,6 +28,10 @@ public class BuildingManager : MonoBehaviour
     void Start()
     {
         if(testing) SpawnBuilding(testingFloorNum);
+        else
+        {
+            SpawnBuilding(incident.floorNum);
+        }
     }
 
     public void SpawnBuilding(int startFloorNum)
@@ -58,6 +61,11 @@ public class BuildingManager : MonoBehaviour
     [ContextMenu("Add Floor")]
     public void AddFloor()
     {
+        if (floorNum >= 99)
+        {
+            TryLog("Removing floor num cannot be greater than 99");
+            return;
+        }
         floorNum++;
         float offset = floorPrefab.GetComponent<engineHolder>().selectionRenderer.bounds.size.y + yOffset;
         floorAddY += offset;
@@ -66,11 +74,33 @@ public class BuildingManager : MonoBehaviour
         GameObject holder = Instantiate(floorPrefab, spawnPos, Quaternion.identity);
         holder.transform.parent = transform;
         engineHolder engineHolder = holder.GetComponent<engineHolder>();
-        engineHolder.areaName = $"Floor {floorNum}";
-        buildingHolders.Insert(buildingHolders.Count - 3, engineHolder);
+        engineHolder.areaName = $"Floor {floorNum}"; 
+        buildingHolders.Insert(buildingHolders.Count - 2, engineHolder);
         // move up roof and attic
         buildingHolders[buildingHolders.Count - 1].transform.position += Vector3.up * offset;
         buildingHolders[buildingHolders.Count - 2].transform.position += Vector3.up * offset;
+        incident.floorNum = floorNum;
+    }
+    
+    [ContextMenu("Remove Floor")]
+    public void RemoveFloor()
+    {
+        if (floorNum <= 1)
+        {
+            TryLog("Removing floor num cannot be less than 1");
+            return;
+        }
+        
+        float offset = floorPrefab.GetComponent<engineHolder>().selectionRenderer.bounds.size.y + yOffset;
+        floorAddY -= offset;
+        TryLog("Removing floor: " + floorNum);
+        Destroy(buildingHolders[floorNum].gameObject);
+        buildingHolders.RemoveAt(floorNum);
+        floorNum--;
+        // move down roof and attic
+        buildingHolders[buildingHolders.Count - 1].transform.position += -Vector3.up * offset;
+        buildingHolders[buildingHolders.Count - 2].transform.position += -Vector3.up * offset;
+        incident.floorNum = floorNum;
     }
 
     void SpawnFloor(GameObject prefab, string holderName, bool useExtraOffset = false)

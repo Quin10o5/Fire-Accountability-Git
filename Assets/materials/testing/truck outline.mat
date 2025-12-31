@@ -133,8 +133,8 @@ Material:
     - _searchCompletion: 0
     - _updateSpeed: 0
     m_Colors:
-    - _BaseColor: {r: 0.23231782, g: 0.41568628, b: 0.18039216, a: 1}
-    - _Color: {r: 0.23231782, g: 0.41568628, b: 0.18039216, a: 1}
+    - _BaseColor: {r: 0.21317925, g: 0.383, b: 0.16620755, a: 1}
+    - _Color: {r: 0.21317925, g: 0.383, b: 0.16620755, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - _outline_Color: {r: 0.20460798, g: 0.368, b: 0.195776, a: 1}

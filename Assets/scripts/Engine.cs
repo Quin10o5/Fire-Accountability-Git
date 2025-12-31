@@ -183,15 +183,16 @@ public class Engine : MonoBehaviour, IPointerDownHandler, IDragHandler, IPointer
         Ray ray = Camera.main.ScreenPointToRay(eventData.position);
         
             
-        if (Physics.Raycast(ray, out RaycastHit hit) && hit.collider.gameObject.tag != "Untagged")
+        if (Physics.Raycast(ray, out RaycastHit hit) && (hit.collider.gameObject.tag != "Untagged" && hit.collider.gameObject.tag != "Engine"))
         {
             engineHolder eH2 = hit.collider.gameObject.GetComponent<engineHolder>();
             if(eH != eH2 && commandType == CommandType.Area)
             {
                 ClearCommandStatus();
-                eH.ClearCommander();
                 dragManager.updateUI();
                 dragManager.cI.addInfo($"{customSettings.engineNames[SOindex]} moved from {eH.areaName} to {eH2.areaName}");
+                dragManager.cI.MoveUnitPosition(SOindex, eH2.areaName);
+                dragManager.tM.resetSelectedTime();
             }
             if (eH2 != null && !eH2.full)
             {
@@ -201,7 +202,13 @@ public class Engine : MonoBehaviour, IPointerDownHandler, IDragHandler, IPointer
                     transform.position = hit.point;
                     eH2.placeEngine(this.gameObject);
                     
-                    if(eH != eH2)dragManager.cI.addInfo($"{customSettings.engineNames[SOindex]} moved from {eH.areaName} to {eH2.areaName}");
+                    if(eH != eH2)
+                    {
+                        dragManager.cI.addInfo(
+                            $"{customSettings.engineNames[SOindex]} moved from {eH.areaName} to {eH2.areaName}");
+                        dragManager.cI.MoveUnitPosition(SOindex, eH2.areaName);
+                        dragManager.tM.resetSelectedTime();
+                    }
                 }
                 
                 eH = eH2;

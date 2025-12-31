@@ -7,6 +7,7 @@ using System;
 [CreateAssetMenu(fileName = "currentIncident", menuName = "Scriptables/Current Incident")]
 public class currentIncident : ScriptableObject
 {
+    public int floorNum;
     public string startTime;
     public List<string> info;
     public List<int> activeEngines;
@@ -52,9 +53,20 @@ public class currentIncident : ScriptableObject
             }
         }
     }
+
+    public void ResetEngineTime(int index)
+    {
+        
+    }
+
+    public void MoveUnitPosition(int index, string newLocation)
+    {
+        engineHolderPositions[index] = newLocation;
+    }
     
     public void resetInfo()
     {
+        floorNum = 1;
         startTime = null;
         activeEngines.Clear();
         engineHolderPositions.Clear();

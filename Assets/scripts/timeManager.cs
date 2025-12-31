@@ -49,7 +49,7 @@ public class timeManager : MonoBehaviour
     public void resetSelectedTime()
     {
         colorTimer c = d.selectedEngine.GetComponent<colorTimer>();
-        currentIncident.addInfo($"{eSO.engineNames[d.selectedEngine.GetComponent<Engine>().SOindex]}'s time was reset from {c.displayTimer}");
+        currentIncident.addInfo($"{eSO.engineNames[d.selectedEngine.GetComponent<Engine>().SOindex]}'s time was reset from {c.displayTimer}"); 
         timeManager.instance.setTime(c.incidentIndex);
         c.setTime();
     }

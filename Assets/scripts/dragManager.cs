@@ -11,7 +11,9 @@ public class dragManager : MonoBehaviour
     public int selectedEngineIndex;
     public TMP_Text selectedEngineName;
     public GameObject removeUnitButton;
-    public GameObject[] selectedEnginesButtons;
+    public GameObject[] disableBeforeStart;
+    public GameObject[] showForWorld;
+    public GameObject[] showForUI;
     public TMP_Text selectedEnginePersonnel;
     [Header("Engine Spawning")]
     public int[] activeEngines;
@@ -45,13 +47,31 @@ public class dragManager : MonoBehaviour
         }
         instance = this;
         eSO.LoadData();
+        HideUI();
+    }
+
+    public void CheckForUIAwake()
+    {
+        for (int i = 0; i < disableBeforeStart.Length; i++)
+        {
+            if(!disableBeforeStart[i].activeSelf)disableBeforeStart[i].SetActive(true);
+        }
+    }
+    public void HideUI()
+    {
+        for (int i = 0; i < disableBeforeStart.Length; i++)
+        {
+            if(disableBeforeStart[i].activeSelf)disableBeforeStart[i].SetActive(false);
+        }
     }
 
     void Start()
     {
         tM = timeManager.instance;
         cI = tM.currentIncident;
+        int floorNum = cI.floorNum;
         cI.resetInfo();
+        cI.floorNum = floorNum;
         for (int i = 0; i < eSO.engineNames.Length; i++)
         {
             spawnEngineButton(i);
@@ -174,48 +194,87 @@ public class dragManager : MonoBehaviour
         if(selectedEngine != null) selectedEngine.GetComponent<Engine>().undoVis();
     }
 
+    void ShowUIUI()
+    {
+        for (int i = 0; i < showForWorld.Length; i++)
+        {
+            showForWorld[i].SetActive(false);
+        }
+        for (int i = 0; i < showForUI.Length; i++)
+        {
+            showForUI[i].SetActive(true);
+        }
+        // Ensure selectedEngineIndex is within bounds
+        if (selectedEngineIndex >= 0 && selectedEngineIndex < eSO.engineNames.Length)
+        {
+            selectedEngineName.text = eSO.engineNames[selectedEngineIndex];
+        }
+        else
+        {
+            Debug.LogWarning("selectedEngineIndex is out of range! exiting updateUI() function.");
+            return; // Exit the function to prevent further errors
+        }
+
+        selectedEnginePersonnel.text = eSO.enginePersonel[selectedEngineIndex].ToString();
+    }
+
+    private void ShowWorldUI()
+    {
+        for (int i = 0; i < showForUI.Length; i++)
+        {
+            showForUI[i].SetActive(false);
+        }
+        for (int i = 0; i < showForWorld.Length; i++)
+        {
+            showForWorld[i].SetActive(true);
+        }
+        // Ensure selectedEngineIndex is within bounds
+        if (selectedEngineIndex >= 0 && selectedEngineIndex < eSO.engineNames.Length)
+        {
+            selectedEngineName.text = eSO.engineNames[selectedEngineIndex];
+        }
+        else
+        {
+            Debug.LogWarning("selectedEngineIndex is out of range! exiting updateUI() function.");
+            return; // Exit the function to prevent further errors
+        }
+
+        selectedEnginePersonnel.text = eSO.enginePersonel[selectedEngineIndex].ToString();
+        
+    }
+
     public void updateUI()
     {
-        
-            
 
+            //Debug.Log($"Updating UI for engine {eSO.engineNames[selectedEngineIndex]} - {selectedEngineIndex}");
+            CheckForUIAwake();
             if (selectedEngine != null)
             {
                 if(!commanderDropdown.transform.parent.gameObject.activeInHierarchy) commanderDropdown.transform.parent.gameObject.SetActive(true);
                 Engine eI = selectedEngine.GetComponent<Engine>();
                 if(eI!=null) {
-                    removeUnitButton.SetActive(true);
+                    ShowWorldUI();
                 }
                 else 
                 {
-                    removeUnitButton.SetActive(false);
+                    HideUI();
                 }
-                Debug.Log($"Getting value for {eI.commandType} - {GetCommandIndex(eI.commandType)} - {GetCommandType(GetCommandIndex(eI.commandType))}");
+                //Debug.Log($"Getting value for {eI.commandType} - {GetCommandIndex(eI.commandType)} - {GetCommandType(GetCommandIndex(eI.commandType))}");
                 commanderDropdown.value = GetCommandIndex(eI.commandType);
 
             }
+            else if (selectedEngineIndex >= 0)
+            {
+                ShowUIUI();
+            }
             else
             {
-                removeUnitButton.SetActive(false);
-
-                if (commanderDropdown.transform.parent.gameObject.activeInHierarchy)
-                    commanderDropdown.transform.parent.gameObject.SetActive(false);
+                HideUI();
             }
             
             
 
-            // Ensure selectedEngineIndex is within bounds
-            if (selectedEngineIndex >= 0 && selectedEngineIndex < eSO.engineNames.Length)
-            {
-                selectedEngineName.text = eSO.engineNames[selectedEngineIndex];
-            }
-            else
-            {
-                Debug.LogWarning("selectedEngineIndex is out of range! exiting updateUI() function.");
-                return; // Exit the function to prevent further errors
-            }
-
-            selectedEnginePersonnel.text = eSO.enginePersonel[selectedEngineIndex].ToString();
+            
     }
     
     
@@ -261,6 +320,7 @@ public class dragManager : MonoBehaviour
         if (type == CommandType.Area)
         {
             commander.SetCommand(type);
+            cI.engineCommanderInfo[newIncidentIndex] = type;
             updateUI();
             return;
         }

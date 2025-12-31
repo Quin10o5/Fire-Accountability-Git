@@ -158,6 +158,7 @@ public class engineHolder : MonoBehaviour
             timeManager t = timeManager.instance;
         if(currentCommander)t.currentIncident.addInfo(
             $"{settings.engineNames[currentCommander.GetComponent<Engine>().SOindex]} is no longer commanding {areaName}");
+        t.currentIncident.engineCommanderInfo[currentCommander.GetComponent<Engine>().SOindex] = CommandType.None;
         currentCommander = null;
         ClearOutline();
     }
