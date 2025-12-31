@@ -104,7 +104,7 @@ public class timeManager : MonoBehaviour
 
         for (int i = 0; i < d.commanders.Length; i++)
         {
-            concatInfo += $"Ending {settings.GetCommandingTitle(d.commanders[i].type)}:   {eSO.engineNames[d.commanders[i].commander.SOindex]}\n";
+            if(d.commanders[i].commander != null) concatInfo += $"Ending {settings.GetCommandingTitle(d.commanders[i].type)}:   {eSO.engineNames[d.commanders[i].commander.SOindex]}\n";
         }
         TimeSpan elapsed = DateTime.Now - startTime;
 

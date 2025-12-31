@@ -26,8 +26,10 @@ public class engineHolder : MonoBehaviour
 
     public Color commandedColor;
     public float searchCompletion = 0;
+    public float fireLocated = 0;
     public float visUpdateTime = 1.5f;
     private float trueSearchCompletion = 0;
+    private float trueFireCompletion = 0;
 
     [Header("Company Visualization")] 
     public int companyNum;
@@ -140,7 +142,23 @@ public class engineHolder : MonoBehaviour
         
         
     }
-    
+    public IEnumerator ChangeFireVis(bool reset = false)
+    {
+        if(reset) fireLocated = 0;
+        else fireLocated = 1;
+        float startTime = Time.time;
+        float endTime = startTime + visUpdateTime;
+        int outlineColorID = Shader.PropertyToID("_hasFire");
+        while (Time.time < endTime)
+        {
+            float u = (Time.time - startTime) / visUpdateTime;
+            trueFireCompletion = Mathf.Lerp(trueFireCompletion, fireLocated, u);
+            selectionRenderer.material.SetFloat(outlineColorID, (float)trueFireCompletion);
+            yield return null;
+        }
+        
+        
+    }
     
     public void SetCommander(GameObject commander)
     {

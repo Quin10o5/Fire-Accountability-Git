@@ -106,8 +106,13 @@ public class engineScroller : MonoBehaviour
 
     public void OnSliderValueChanged()
 {
+    int unshown = engineButtons.Length - buttonLimit;
+    if (unshown < 0)
+    {
+        unshown = 0;
+    }
     // Determine the start index based on the slider value
-    int startIndex = Mathf.Clamp((int)(s.value * engineButtons.Length), 0, engineButtons.Length);
+    int startIndex = Mathf.Clamp((int)(s.value * unshown), 0, engineButtons.Length);
 
     // Reorder children of engineParent based on the new visibility
     for (int i = 0; i < engineButtons.Length; i++)

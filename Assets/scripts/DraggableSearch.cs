@@ -3,12 +3,12 @@ using UnityEngine.EventSystems;
 using TMPro;
 public class DraggableSearch : MonoBehaviour, IPointerDownHandler, IDragHandler, IPointerUpHandler
 {
+    public bool isFire = false;
     private RectTransform rectTransform;
     private Canvas canvas; 
     private CanvasGroup canvasGroup; 
     private Vector2 originalPosition;
     private Vector2 pointerOffset;
-    public Color searchColor;
     public int searchCompletion;
     private MeshRenderer lastSelected;
     private Material lastSelectedMaterial;
@@ -99,12 +99,19 @@ public class DraggableSearch : MonoBehaviour, IPointerDownHandler, IDragHandler,
         if (Physics.Raycast(ray, out RaycastHit hit) && hit.collider.gameObject.tag == "Building")
         {
             engineHolder e = hit.collider.gameObject.GetComponent<engineHolder>();
-
-            StartCoroutine(e.changeSearchVis(searchCompletion)) ;
             currentIncident cI = dragManager.instance.tM.currentIncident;
+            if (isFire)
+            {
+                StartCoroutine(e.ChangeFireVis()) ;
+                cI.addInfo($"Fire was located in {e.areaName}");
+                return;
+            }
+            StartCoroutine(e.changeSearchVis(searchCompletion)) ;
+            
             if (searchCompletion == 0)
             {
-                cI.addInfo($"Search status reset in {e.areaName}");
+                cI.addInfo($"Search status and fire reset in {e.areaName}");
+                StartCoroutine(e.ChangeFireVis(true)) ;
             }
             if (searchCompletion == 1)
             {

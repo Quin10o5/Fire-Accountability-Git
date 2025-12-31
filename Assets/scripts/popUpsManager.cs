@@ -5,6 +5,7 @@ using TMPro;
 using UnityEngine;
 using System;
 using Unity.VisualScripting;
+using UnityEngine.UI;
 
 public class popUpsManager : MonoBehaviour
 {
@@ -24,13 +25,10 @@ public class popUpsManager : MonoBehaviour
     public TMP_Text personnelNum;
     public GameObject subtractButton;
 
-    [Header("Utilities")] 
-    public TMP_Dropdown gas;
-    public TMP_Dropdown electric;
-    
     [Header("Add Company")]
     public TMP_InputField companyName;
     public TMP_InputField companyPersonnelNum;
+    public Scrollbar scroller;
     private string companyNameString;
     
     private int companyPersonnelNumInt;
@@ -75,7 +73,7 @@ public class popUpsManager : MonoBehaviour
                     pages[i].SetActive(true);
                     header.text = pageHeaders[i];
 
-                    if (i == 2)
+                    if (i == 0)
                     {
                         refreshPersonnelEdit(null);
                     }
@@ -190,6 +188,9 @@ public class popUpsManager : MonoBehaviour
             dM.spawnEngineButton(eSO.engineNames.Length - 1, true);
             dM.updateUI();
             closePopUp();
+            scroller.value = 0;
+            companyName.text = null;
+            companyPersonnelNum.text =null ;
         }
         else
         {
@@ -208,30 +209,15 @@ public class popUpsManager : MonoBehaviour
     public void confirmNote()
     {
         noteString = noteText.text;
-        if(noteString != "")
+        if(!string.IsNullOrEmpty(noteString))
         {
             tM.currentIncident.addInfo(noteString, "NOTE");
             closePopUp();
+            noteText.text = null;
         }
         else
         {
             openWarning("This note cannot be added", "Note cannot be blank" );
-        }
-    }
-
-    public void gasUpdated()
-    {
-        if (gas.value != 0)
-        {
-            tM.currentIncident.addInfo( "Gas was " + gas.options[gas.value].text );
-        }
-        
-    }
-    public void electricUpdated()
-    {
-        if (electric.value != 0)
-        {
-            tM.currentIncident.addInfo("Electric was " + electric.options[electric.value].text);
         }
     }
 

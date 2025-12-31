@@ -289,6 +289,10 @@ public class dragManager : MonoBehaviour
     public void clearCommand()
     {
         Engine s = selectedEngine.GetComponent<Engine>();
+        for (int i = 0; i < commanders.Length; i++)
+        {
+            if(commanders[i].commander == s) commanders[i].commander = null;
+        }
         if(s.commandType != CommandType.None) cI.addInfo($"{eSO.engineNames[s.SOindex]} is no longer {settings.GetCommandingTitle(s.commandType)}");
         s.ClearCommandStatus();
         updateUI();

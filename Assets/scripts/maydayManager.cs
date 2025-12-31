@@ -7,6 +7,7 @@ using UnityEngine.UI;
 
 public class maydayManager : MonoBehaviour
 {
+    public GameObject loggingText;
     public bool calledManpower = false;
     public bool maydayActive;
     public Toggle calledManpowerToggle;
@@ -19,6 +20,7 @@ public class maydayManager : MonoBehaviour
     private currentIncident cI;
     private TimeSpan elapsed;
     private bool foundVictims;
+    
     // Start is called before the first frame update
     void beginMayday()
     {
@@ -30,6 +32,7 @@ public class maydayManager : MonoBehaviour
         startTime = DateTime.UtcNow;
         StartCoroutine(BlinkAlert());
         cI.addInfo("Mayday begun!");
+        loggingText.SetActive(false);
     }
 
     public IEnumerator BlinkAlert()
@@ -50,6 +53,7 @@ public class maydayManager : MonoBehaviour
     
     void endMayday()
     {
+        loggingText.SetActive(true);
         maydayActive = false;
         overlay.SetActive(false);
         maydayButton.GetComponent<Image>().color = new Color(1, 0, 0, 1);

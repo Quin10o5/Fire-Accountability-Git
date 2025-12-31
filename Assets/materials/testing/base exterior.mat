@@ -68,6 +68,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _fire:
+        m_Texture: {fileID: 2800000, guid: 068ec8409ad69a849b7949af53a70894, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _search0:
         m_Texture: {fileID: 2800000, guid: 8fe86007d9632dc4cbfcfc207754b5ff, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -130,6 +134,7 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     - _fresnel_strength: 1.62
+    - _hasFire: 0
     - _outline_Thickness: 0
     - _searchCompletion: 0
     - _updateSpeed: 0
