@@ -7,6 +7,7 @@ using System;
 [CreateAssetMenu(fileName = "currentIncident", menuName = "Scriptables/Current Incident")]
 public class currentIncident : ScriptableObject
 {
+    public bool inMayday = false;
     public int floorNum;
     public string startTime;
     public List<string> info;
@@ -15,11 +16,13 @@ public class currentIncident : ScriptableObject
     public List<CommandType> engineCommanderInfo;
     public List<string> engineTimes;
     public List<float> engineUVal;
+    public List<bool> missing;
     
     public void addInfo(string i, string IDENTIFIER = null)
     {
         if(IDENTIFIER == null){
             info.Add($"{DateTime.Now.ToLongTimeString()}: {i}\n");
+            Debug.Log($"{DateTime.Now.ToLongTimeString()}: {i}\n");
         }
         else
         {
@@ -74,6 +77,7 @@ public class currentIncident : ScriptableObject
         engineTimes.Clear();
         engineUVal.Clear();
         info.Clear();
+        missing.Clear();
     }
 
     

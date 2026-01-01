@@ -23,6 +23,7 @@ public class dragManager : MonoBehaviour
     public GameObject enginePrefab; // Assigned in inspector
     public GameObject uiPrefab;     // Assigned in inspector 
     public engineScroller e;
+    public List<Engine> engines = new List<Engine>();
     [Header("Materials")]
     public Material hoverMaterial;  // Material used to highlight engineHolder
     [Header("Commanders")]
@@ -99,6 +100,7 @@ public class dragManager : MonoBehaviour
                 cI.engineCommanderInfo.Insert(0, CommandType.None);
                 cI.engineTimes.Insert(0, DateTime.MinValue.ToShortTimeString());
                 cI.engineUVal.Insert(0, -0.1f);
+                cI.missing.Insert(0, false);
             }
             else
             {
@@ -107,6 +109,7 @@ public class dragManager : MonoBehaviour
                 cI.engineCommanderInfo.Add(CommandType.None);
                 cI.engineTimes.Add(DateTime.MinValue.ToShortTimeString());
                 cI.engineUVal.Add(-0.1f);
+                cI.missing.Add(false);
             }
             
         }
@@ -117,6 +120,7 @@ public class dragManager : MonoBehaviour
             cI.engineCommanderInfo[i] = CommandType.None;
             cI.engineTimes[i] = DateTime.MinValue.ToShortTimeString();
             cI.engineUVal[i] = -0.1f;
+            cI.missing[i] = false;
         }
         
         
@@ -313,6 +317,12 @@ public class dragManager : MonoBehaviour
         }
         
         
+    }
+
+    public void ToggleSelectedMissing()
+    {
+        Engine s = selectedEngine.GetComponent<Engine>();
+        s.ToggleMissing();
     }
 
     public void ReplaceCommand(Engine commander, CommandType type, bool hideLog = false)

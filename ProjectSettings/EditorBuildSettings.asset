@@ -18,7 +18,7 @@ EditorBuildSettings:
     path: Assets/Scenes/Residentials/1FNB.unity
     guid: 08c8bef4202559848ae24225abecb45c
   - enabled: 1
-    path: Assets/Scenes/Residentials/2FNB.unity
+    path: Assets/Scenes/Main Scene.unity
     guid: 05a1d7a953e06234791278c73d5a969d
   - enabled: 1
     path: Assets/Scenes/Residentials/3FNB.unity
@@ -33,3 +33,4 @@ EditorBuildSettings:
     path: Assets/Scenes/Residentials/3FB.unity
     guid: 319eb4295abb0ed44967ab92c8c195c6
   m_configObjects: {}
+  m_UseUCBPForAssetBundles: 0

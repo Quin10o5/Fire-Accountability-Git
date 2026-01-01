@@ -130,6 +130,7 @@ public class DraggableUI : MonoBehaviour, IPointerDownHandler, IDragHandler, IPo
                     eI.company = company;
                     eI.currentArea = eH.areaName;
                     dragManager d = dragManager.instance;
+                    d.engines.Add(eI);
                     eI.nameText.text = enginesSo.engineNames[SOindex];
                     currentIncident cI = d.tM.currentIncident;
                     int incidentIndex = cI.activeEngines.IndexOf(SOindex);

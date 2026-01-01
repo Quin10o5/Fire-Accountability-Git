@@ -12,10 +12,13 @@ public class enginesSO : ScriptableObject
     
     [Header("Units")] public string[] engineNames;
     public int[] enginePersonel;
+    [Header("Warnings")]
     public int engineWarningTime = 10;
     public int engineSevereWarningTime = 15;
     public int cycleWarningTime = 10;
     public int cycleSevereWarningTime = 15;
+    [Header("Mayday")]
+    public string[] maydayToggles = new string[3];
 
     public void SaveData()
     {

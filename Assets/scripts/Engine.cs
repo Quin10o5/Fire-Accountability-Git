@@ -16,8 +16,9 @@ public class Engine : MonoBehaviour, IPointerDownHandler, IDragHandler, IPointer
     public Color baseColor;
     public Outline outline;
     public TMP_Text nameText;
-    
-    [Header("Runtime")]
+
+    [Header("Runtime")] 
+    [ReadOnly] public bool missing = false;
     [ReadOnly]public bool isDragging = false;
     [ReadOnly]public engineHolder eH;
     
@@ -85,6 +86,25 @@ public class Engine : MonoBehaviour, IPointerDownHandler, IDragHandler, IPointer
         dragManager.selectedEngine = this.gameObject;
         dragManager.updateUI();
 
+    }
+
+    public void ToggleMissing()
+    {
+        missing = !missing;
+        dragManager.cI.missing[index] = missing;
+        if (missing) dragManager.cI.addInfo(dragManager.eSO.engineNames[SOindex] + " was marked as missing");
+        else
+        {
+            dragManager.cI.addInfo(dragManager.eSO.engineNames[SOindex] + " was marked as no longer missing");
+        }
+        UpdateName();
+    }
+
+    public void ClearMissing()
+    {
+        dragManager.cI.missing[index] = false;
+        missing = false;
+        UpdateName();
     }
 
      
@@ -313,11 +333,13 @@ public class Engine : MonoBehaviour, IPointerDownHandler, IDragHandler, IPointer
         if (commandType != CommandType.None)
         {
             append = settings.GetCommandingAcronym(commandType);
+            if(missing) append = "MISSING " + append;
             nameText.text = append + "-" + baseName ;
         }
         else
         {
-            nameText.text = baseName;
+            if (missing) append = "MISSING ";
+            nameText.text = append + baseName;
         }
         
     }

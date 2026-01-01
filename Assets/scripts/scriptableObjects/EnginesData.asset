@@ -23,3 +23,7 @@ MonoBehaviour:
   engineSevereWarningTime: 15
   cycleWarningTime: 1
   cycleSevereWarningTime: 2
+  maydayToggles:
+  - Avery
+  - 
+  - 
