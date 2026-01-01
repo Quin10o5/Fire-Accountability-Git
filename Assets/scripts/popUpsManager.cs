@@ -34,9 +34,14 @@ public class popUpsManager : MonoBehaviour
     private int companyPersonnelNumInt;
     private dragManager dM;
     
-    [Header("Add Note")] 
+    [Header("Notes")] 
+    private bool prevNotesOpen = false;
     private string noteString;
     public TMP_InputField noteText;
+    public GameObject prevNotes;
+    public Transform notesParent;
+    public GameObject pastNotePrefab;
+    public TMP_Text viewNoteText;
     [Header("Warnings")]
     public GameObject warningPopUp;
     public TMP_Text errorText;
@@ -88,6 +93,7 @@ public class popUpsManager : MonoBehaviour
     {
         currentPage = -1;
         popUpParent.SetActive(false);
+        ClosePrevNotes();
     }
 
     void openWarning(string error, string reason)
@@ -208,6 +214,7 @@ public class popUpsManager : MonoBehaviour
     
     public void confirmNote()
     {
+        if (prevNotesOpen) ClosePrevNotes();
         noteString = noteText.text;
         if(!string.IsNullOrEmpty(noteString))
         {
@@ -219,6 +226,36 @@ public class popUpsManager : MonoBehaviour
         {
             openWarning("This note cannot be added", "Note cannot be blank" );
         }
+    }
+
+    public void OpenPrevNotes()
+    {
+        if(prevNotesOpen)
+        {
+            ClosePrevNotes();
+            return;
+        }
+        prevNotesOpen = true;
+        prevNotes.SetActive(true);
+        viewNoteText.text = "Close Notes";
+        
+        string[] notes = dM.cI.GetAllOfNoteType("NOTE");
+        
+        for(int i = 0; i < notesParent.childCount; i++) Destroy(notesParent.GetChild(i).gameObject);
+        
+        for (int i = 0; i < notes.Length; i++)
+        {
+            GameObject note = Instantiate(pastNotePrefab, notesParent);
+            note.GetComponent<TMP_Text>().text = notes[i];
+        }
+    }
+
+    public void ClosePrevNotes()
+    {
+        prevNotes.SetActive(false);
+        prevNotesOpen = false;
+        viewNoteText.text = "View Notes";
+        
     }
 
     public void fireControlledUpdate(GameObject visual)

@@ -26,7 +26,7 @@ public class currentIncident : ScriptableObject
         }
         else
         {
-            info.Add($"{DateTime.Now.ToLongTimeString()}: ~{IDENTIFIER}~{i}\n");
+            info.Add($"{DateTime.Now.ToLongTimeString()}: ~{IDENTIFIER}~ {i}\n");
         }
         if (timeManager.instance.logText != null)
         {
@@ -34,27 +34,30 @@ public class currentIncident : ScriptableObject
         }
         
     }
+    
 
-    public void ClearNAGasNotes()
+    public void CLearNoteType(string identifier)
     {
         for (int i = info.Count - 1; i >= 0; i--)
         {
-            if (info[i].Contains("~GNA~"))
+            if (info[i].Contains($"~{identifier}~"))
             {
                 info.RemoveAt(i);
             }
         }
     }
 
-    public void ClearNAElectricalNotes()
+    public string[] GetAllOfNoteType(string identifier)
     {
+        List<string> list = new List<string>();
         for (int i = info.Count - 1; i >= 0; i--)
         {
-            if (info[i].Contains("~ENA~"))
+            if (info[i].Contains($"~{identifier}~"))
             {
-                info.RemoveAt(i);
+                list.Add(info[i]);
             }
         }
+        return list.ToArray();
     }
 
     public void ResetEngineTime(int index)

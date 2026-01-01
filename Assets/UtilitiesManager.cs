@@ -31,12 +31,13 @@ public class UtilitiesManager : MonoBehaviour
         cycleButton.index = (cycleButton.index + 1) % options.Length;
         if(cycleButton.index == 0) cycleButton.index = 1;
         cycleButton.cycleText.text = options[cycleButton.index];
-        if(cycleButton.index == 1) tM.currentIncident.addInfo($"{cycleButton.type} was non applicable", "GNA");
+        string acryo = options[cycleButton.index].Substring(0,1) + "NA";
+        if(cycleButton.index == 1) tM.currentIncident.addInfo($"{cycleButton.type} was non applicable");
         else
         {
             
             tM.currentIncident.addInfo($"{cycleButton.type}: " + options[cycleButton.index]);
-            tM.currentIncident.ClearNAGasNotes();
+            tM.currentIncident.CLearNoteType(acryo);
         }
     }
     
