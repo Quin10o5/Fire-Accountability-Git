@@ -20,6 +20,7 @@ public class BuildingManager : MonoBehaviour
 
     [Header("Runtime")]
     [ReadOnly] public List<engineHolder> buildingHolders = new List<engineHolder>();
+    [ReadOnly] public float buildingHeight;
     // private
     private float startY;
     private float floorAddY;
@@ -55,6 +56,7 @@ public class BuildingManager : MonoBehaviour
 
         floorAddY = currentY;
         SpawnFloor(atticPrefab, $"Attic", true);
+        buildingHeight = currentY;
         SpawnFloor(roofPrefab, $"Roof", true);
     }
 
@@ -69,6 +71,7 @@ public class BuildingManager : MonoBehaviour
         floorNum++;
         float offset = floorPrefab.GetComponent<engineHolder>().selectionRenderer.bounds.size.y + yOffset;
         floorAddY += offset;
+        buildingHeight += offset;
         Vector3 spawnPos = new Vector3(spawnPoint.position.x, floorAddY, spawnPoint.position.z);
         TryLog("Adding floor: " + floorNum + " at yLevel: " + floorAddY);
         GameObject holder = Instantiate(floorPrefab, spawnPos, Quaternion.identity);
@@ -93,6 +96,7 @@ public class BuildingManager : MonoBehaviour
         
         float offset = floorPrefab.GetComponent<engineHolder>().selectionRenderer.bounds.size.y + yOffset;
         floorAddY -= offset;
+        buildingHeight -= offset;
         TryLog("Removing floor: " + floorNum);
         Destroy(buildingHolders[floorNum].gameObject);
         buildingHolders.RemoveAt(floorNum);

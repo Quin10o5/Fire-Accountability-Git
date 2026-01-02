@@ -12,40 +12,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb902da5c343ffc4fa8140863fef582f, type: 3}
   m_Name: currentIncident
   m_EditorClassIdentifier: 
-  floorNum: 1
+  inMayday: 0
+  floorNum: 3
   startTime: 
-  info:
-  - '4:40:50 PM: Sample 2 with 6 personnel arrived at scene
-
-'
-  - '4:40:50 PM: Sample 2 was placed in Floor 1
-
-'
-  - '4:40:54 PM: Sample 2 is now commanding Floor 1
-
-'
-  - '4:41:06 PM: Sample 4 with 7 personnel arrived at scene
-
-'
-  - '4:41:06 PM: Sample 4 was placed in Basement
-
-'
-  - '4:41:08 PM: Sample 4 is now Search/Rescue
-
-'
+  info: []
   activeEngines: 0000000001000000020000000300000004000000
   engineHolderPositions:
   - 
-  - Floor 1
   - 
-  - Basement
   - 
-  engineCommanderInfo: 0000000000000000000000000400000000000000
+  - 
+  - 
+  engineCommanderInfo: 0000000000000000000000000000000000000000
   engineTimes:
   - 12:00 AM
-  - 4:40:50 PM
   - 12:00 AM
-  - 4:41:06 PM
+  - 12:00 AM
+  - 12:00 AM
   - 12:00 AM
   engineUVal:
   - -0.1
@@ -53,3 +36,4 @@ MonoBehaviour:
   - -0.1
   - -0.1
   - -0.1
+  missing: 0000000000
