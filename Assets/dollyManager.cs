@@ -15,7 +15,7 @@ public class DollyManager : MonoBehaviour
     [SerializeField] private CinemachineDollyCart dollyY;
 
     [SerializeField] private CinemachineSmoothPath dollySpline;
-    
+    private Manager2D manager2D;
 
 
 
@@ -27,6 +27,7 @@ public class DollyManager : MonoBehaviour
 
     void Start()
     {
+        manager2D = Manager2D.instance;
         scrollbar.value = .3f;
     }
     
@@ -47,6 +48,8 @@ public class DollyManager : MonoBehaviour
 
     private void UpdateScrollHeight() 
     {
+        if(manager2D.in2D && scrollbar.gameObject.activeInHierarchy) scrollbar.gameObject.SetActive(false);
+        else if (knownBuildingHeight > 2 && !manager2D.in2D && !scrollbar.gameObject.activeInHierarchy) scrollbar.gameObject.SetActive(true);
         if(knownBuildingHeight == buildingManager.buildingHeight) return;
         knownBuildingHeight = buildingManager.buildingHeight;
         if(knownBuildingHeight > 2 && !scrollbar.gameObject.activeInHierarchy) scrollbar.gameObject.SetActive(true);
@@ -55,6 +58,8 @@ public class DollyManager : MonoBehaviour
             scrollbar.gameObject.SetActive(false);
             scrollbar.value = .3f;
         }
+
+        if (knownBuildingHeight < 1) knownBuildingHeight = 1;
         dollySpline.m_Waypoints[1].position = new Vector3(0, 0, knownBuildingHeight  -1);
         scrollbar.value = dollyY.m_Position;
     }

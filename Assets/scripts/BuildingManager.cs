@@ -4,19 +4,24 @@ using UnityEngine;
 
 public class BuildingManager : MonoBehaviour
 {
-    [Header("Degugging")] public bool testing = false;
+    [Header("Degugging")] 
+    public bool testing = false;
     public bool verbose = false;
     public int testingFloorNum = 2;
+    public bool visOnly = false;
 
     [Header("Building Prefabs")] public GameObject floorPrefab;
     public GameObject atticPrefab;
     public GameObject roofPrefab;
 
-    [Header("Settings")] public currentIncident incident;
+    [Header("Settings")] 
+    public engineHolder[] surroundingLocations;
+    public currentIncident incident;
     public Transform spawnPoint;
     public int floorNum = -1;
     public float yOffset = 0.02f;
     public float extraOffset = 0.03f;
+    
 
     [Header("Runtime")]
     [ReadOnly] public List<engineHolder> buildingHolders = new List<engineHolder>();
@@ -25,18 +30,26 @@ public class BuildingManager : MonoBehaviour
     private float startY;
     private float floorAddY;
     private float currentY;
+
+    private Manager2D manager2D;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        if(testing) SpawnBuilding(testingFloorNum);
+        manager2D = Manager2D.instance;
+        if(testing) SpawnBuilding(testingFloorNum); 
         else
         {
             SpawnBuilding(incident.floorNum);
         }
+        
     }
 
     public void SpawnBuilding(int startFloorNum)
     {
+        for (int i = 0; i < surroundingLocations.Length; i++)
+        {
+            surroundingLocations[i].AddTo2D();
+        }
         if (startFloorNum < 1)
         {
             TryLog("Starting floor num cannot be less then 1");
@@ -58,6 +71,7 @@ public class BuildingManager : MonoBehaviour
         SpawnFloor(atticPrefab, $"Attic", true);
         buildingHeight = currentY;
         SpawnFloor(roofPrefab, $"Roof", true);
+        manager2D.Create2DView();
     }
 
     [ContextMenu("Add Floor")]
@@ -83,6 +97,12 @@ public class BuildingManager : MonoBehaviour
         buildingHolders[buildingHolders.Count - 1].transform.position += Vector3.up * offset;
         buildingHolders[buildingHolders.Count - 2].transform.position += Vector3.up * offset;
         incident.floorNum = floorNum;
+        if (!visOnly)
+        {
+            EngineHolderPair engineHolderPair = new EngineHolderPair();
+            engineHolderPair.engineHolder = engineHolder;
+            manager2D.holders.Insert(buildingHolders.Count - 2, engineHolderPair);
+        }
     }
     
     [ContextMenu("Remove Floor")]
@@ -99,12 +119,17 @@ public class BuildingManager : MonoBehaviour
         buildingHeight -= offset;
         TryLog("Removing floor: " + floorNum);
         Destroy(buildingHolders[floorNum].gameObject);
+        if (!visOnly)
+        {
+            buildingHolders[floorNum].RemoveFrom2D();
+        }
         buildingHolders.RemoveAt(floorNum);
         floorNum--;
         // move down roof and attic
         buildingHolders[buildingHolders.Count - 1].transform.position += -Vector3.up * offset;
         buildingHolders[buildingHolders.Count - 2].transform.position += -Vector3.up * offset;
         incident.floorNum = floorNum;
+        
     }
 
     void SpawnFloor(GameObject prefab, string holderName, bool useExtraOffset = false)
@@ -119,7 +144,10 @@ public class BuildingManager : MonoBehaviour
         engineHolder engineHolder = holder.GetComponent<engineHolder>();
         buildingHolders.Add(engineHolder);
         engineHolder.areaName = holderName;
-        
+        if (!visOnly)
+        {
+            engineHolder.AddTo2D();
+        }
         
     }
 

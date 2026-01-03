@@ -126,6 +126,7 @@ public class DraggableUI : MonoBehaviour, IPointerDownHandler, IDragHandler, IPo
                     eH.placeEngine(e);
                     Engine eI = e.GetComponent<Engine>();
                     eI.eH = eH;
+                    Manager2D.instance.Create2DEngine(eI, eH);
                     eI.SOindex = SOindex;
                     eI.company = company;
                     eI.currentArea = eH.areaName;

@@ -11,8 +11,9 @@ public class Engine : MonoBehaviour, IPointerDownHandler, IDragHandler, IPointer
     [Header("Scriptable Objects")]
     public SettingsSO settings;
     public enginesSO customSettings;
-    
-    [Header("References")]
+
+    [Header("References")] 
+    public Engine2D engine2D;
     public Color baseColor;
     public Outline outline;
     public TMP_Text nameText;

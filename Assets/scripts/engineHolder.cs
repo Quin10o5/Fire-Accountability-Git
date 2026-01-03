@@ -7,10 +7,14 @@ using UnityEngine.Serialization;
 
 public class engineHolder : MonoBehaviour
 {
-    [Header("Incident Info")]
-    public enginesSO settings;
+    
+    [Header("General")]
+    public Sprite icon2D;
     public string areaName = null;
     public TMP_Text areaText;
+    
+    [Header("Incident Info")]
+    public enginesSO settings;
     public bool full = false;
     public GameObject currentCommander;
     
@@ -41,11 +45,36 @@ public class engineHolder : MonoBehaviour
     
     // Start is called before the first frame update
     void Start()
-    {
+    {  
         if (areaText == null) return;
         areaText.text = areaName;
         heldEngines = new GameObject[holderPositions.Length];
 }
+
+    public void AddTo2D()
+    {
+        
+        Debug.Log("AddTo2D");
+        Debug.Log(Manager2D.instance);
+        EngineHolderPair engineHolderPair = new EngineHolderPair();
+        engineHolderPair.engineHolder = this; 
+        Manager2D.instance.holders.Add(engineHolderPair);
+    }
+
+    public void RemoveFrom2D()
+    {
+        Manager2D m = Manager2D.instance;
+        for (int i = 0; i < m.holders.Count; i++)
+        {
+            if (m.holders[i].engineHolder == this)
+            {
+                Destroy(m.holders[i].engineHolder2D.gameObject);
+                m.holders.RemoveAt(i);
+            }
+                
+        }
+        
+    }
 
     // Update is called once per frame
     // C#
